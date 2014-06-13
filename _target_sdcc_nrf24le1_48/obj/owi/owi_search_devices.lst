@@ -1,0 +1,738 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
+                                      4 ; This file was generated Fri Jun 13 08:35:15 2014
+                                      5 ;--------------------------------------------------------
+                                      6 	.module owi_search_devices
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _owi_search_rom
+                                     13 	.globl _owi_detect_presence
+                                     14 	.globl _owi_check_rom
+                                     15 	.globl _memset
+                                     16 	.globl _FSR_SB_ENDBG
+                                     17 	.globl _FSR_SB_STP
+                                     18 	.globl _FSR_SB_WEN
+                                     19 	.globl _FSR_SB_RDYN
+                                     20 	.globl _FSR_SB_INFEN
+                                     21 	.globl _FSR_SB_RDISMB
+                                     22 	.globl _RFCON_SB_RFCKEN
+                                     23 	.globl _RFCON_SB_RFCSN
+                                     24 	.globl _RFCON_SB_RFCE
+                                     25 	.globl _ADCON_SB_BD
+                                     26 	.globl _PSW_SB_P
+                                     27 	.globl _PSW_SB_F1
+                                     28 	.globl _PSW_SB_OV
+                                     29 	.globl _PSW_SB_RS0
+                                     30 	.globl _PSW_SB_RS1
+                                     31 	.globl _PSW_SB_F0
+                                     32 	.globl _PSW_SB_AC
+                                     33 	.globl _PSW_SB_CY
+                                     34 	.globl _T2CON_SB_T2PS
+                                     35 	.globl _T2CON_SB_I3FR
+                                     36 	.globl _T2CON_SB_I2FR
+                                     37 	.globl _T2CON_SB_T2R1
+                                     38 	.globl _T2CON_SB_T2R0
+                                     39 	.globl _T2CON_SB_T2CM
+                                     40 	.globl _T2CON_SB_T2I1
+                                     41 	.globl _T2CON_SB_T2I0
+                                     42 	.globl _IRCON_SB_EXF2
+                                     43 	.globl _IRCON_SB_TF2
+                                     44 	.globl _IRCON_SB_TICK
+                                     45 	.globl _IRCON_SB_MISCIRQ
+                                     46 	.globl _IRCON_SB_WUOPIRQ
+                                     47 	.globl _IRCON_SB_SPI_2WIRE
+                                     48 	.globl _IRCON_SB_RFIRQ
+                                     49 	.globl _IRCON_SB_RFRDY
+                                     50 	.globl _IEN1_SB_T2EXTRLD
+                                     51 	.globl _IEN1_SB_TICK
+                                     52 	.globl _IEN1_SB_MISCIRQ
+                                     53 	.globl _IEN1_SB_WUOPIRQ
+                                     54 	.globl _IEN1_SB_SPI_2WIRE
+                                     55 	.globl _IEN1_SB_RFIRQ
+                                     56 	.globl _IEN1_SB_RFRDY
+                                     57 	.globl _P3_SB_D7
+                                     58 	.globl _P3_SB_D6
+                                     59 	.globl _P3_SB_D5
+                                     60 	.globl _P3_SB_D4
+                                     61 	.globl _P3_SB_D3
+                                     62 	.globl _P3_SB_D2
+                                     63 	.globl _P3_SB_D1
+                                     64 	.globl _P3_SB_D0
+                                     65 	.globl _IEN0_SB_GLOBAL
+                                     66 	.globl _IEN0_SB_T2
+                                     67 	.globl _IEN0_SB_UART
+                                     68 	.globl _IEN0_SB_T1
+                                     69 	.globl _IEN0_SB_POFIRQ
+                                     70 	.globl _IEN0_SB_T0
+                                     71 	.globl _IEN0_SB_IFP
+                                     72 	.globl _P2_SB_D7
+                                     73 	.globl _P2_SB_D6
+                                     74 	.globl _P2_SB_D5
+                                     75 	.globl _P2_SB_D4
+                                     76 	.globl _P2_SB_D3
+                                     77 	.globl _P2_SB_D2
+                                     78 	.globl _P2_SB_D1
+                                     79 	.globl _P2_SB_D0
+                                     80 	.globl _S0CON_SB_SM0
+                                     81 	.globl _S0CON_SB_SM1
+                                     82 	.globl _S0CON_SB_SM20
+                                     83 	.globl _S0CON_SB_REN0
+                                     84 	.globl _S0CON_SB_TB80
+                                     85 	.globl _S0CON_SB_RB80
+                                     86 	.globl _S0CON_SB_TI0
+                                     87 	.globl _S0CON_SB_RI0
+                                     88 	.globl _P1_SB_D7
+                                     89 	.globl _P1_SB_D6
+                                     90 	.globl _P1_SB_D5
+                                     91 	.globl _P1_SB_D4
+                                     92 	.globl _P1_SB_D3
+                                     93 	.globl _P1_SB_D2
+                                     94 	.globl _P1_SB_D1
+                                     95 	.globl _P1_SB_D0
+                                     96 	.globl _TCON_SB_TF1
+                                     97 	.globl _TCON_SB_TR1
+                                     98 	.globl _TCON_SB_TF0
+                                     99 	.globl _TCON_SB_TR0
+                                    100 	.globl _TCON_SB_IE1
+                                    101 	.globl _TCON_SB_IT1
+                                    102 	.globl _TCON_SB_IE0
+                                    103 	.globl _TCON_SB_IT0
+                                    104 	.globl _P0_SB_D7
+                                    105 	.globl _P0_SB_D6
+                                    106 	.globl _P0_SB_D5
+                                    107 	.globl _P0_SB_D4
+                                    108 	.globl _P0_SB_D3
+                                    109 	.globl _P0_SB_D2
+                                    110 	.globl _P0_SB_D1
+                                    111 	.globl _P0_SB_D0
+                                    112 	.globl _ADCDAT
+                                    113 	.globl _S0REL
+                                    114 	.globl _T2
+                                    115 	.globl _T1
+                                    116 	.globl _T0
+                                    117 	.globl _CRC
+                                    118 	.globl _CC3
+                                    119 	.globl _CC2
+                                    120 	.globl _CC1
+                                    121 	.globl _SPIMDAT
+                                    122 	.globl _SPIMSTAT
+                                    123 	.globl _SPIMCON1
+                                    124 	.globl _SPIMCON0
+                                    125 	.globl _FCR
+                                    126 	.globl _FPCR
+                                    127 	.globl _FSR
+                                    128 	.globl _B
+                                    129 	.globl _ARCON
+                                    130 	.globl _MD5
+                                    131 	.globl _MD4
+                                    132 	.globl _MD3
+                                    133 	.globl _MD2
+                                    134 	.globl _MD1
+                                    135 	.globl _MD0
+                                    136 	.globl _RFCON
+                                    137 	.globl _SPIRDAT
+                                    138 	.globl _SPIRSTAT
+                                    139 	.globl _SPIRCON1
+                                    140 	.globl _SPIRCON0
+                                    141 	.globl _W2CON0
+                                    142 	.globl _W2CON1
+                                    143 	.globl _ACC
+                                    144 	.globl _CCPDATO
+                                    145 	.globl _CCPDATIB
+                                    146 	.globl _CCPDATIA
+                                    147 	.globl _POFCON
+                                    148 	.globl _COMPCON
+                                    149 	.globl _W2DAT
+                                    150 	.globl _W2SADR
+                                    151 	.globl _ADCON
+                                    152 	.globl _RNGDAT
+                                    153 	.globl _RNGCTL
+                                    154 	.globl _ADCDATL
+                                    155 	.globl _ADCDATH
+                                    156 	.globl _ADCCON1
+                                    157 	.globl _ADCCON2
+                                    158 	.globl _ADCCON3
+                                    159 	.globl _PSW
+                                    160 	.globl _WUOPC0
+                                    161 	.globl _WUOPC1
+                                    162 	.globl _TH2
+                                    163 	.globl _TL2
+                                    164 	.globl _CRCH
+                                    165 	.globl _CRCL
+                                    166 	.globl __XPAGE
+                                    167 	.globl _MPAGE
+                                    168 	.globl _T2CON
+                                    169 	.globl _CCH3
+                                    170 	.globl _CCL3
+                                    171 	.globl _CCH2
+                                    172 	.globl _CCL2
+                                    173 	.globl _CCH1
+                                    174 	.globl _CCL1
+                                    175 	.globl _CCEN
+                                    176 	.globl _IRCON
+                                    177 	.globl _SPISDAT
+                                    178 	.globl _SPISSTAT
+                                    179 	.globl _SPISCON1
+                                    180 	.globl _SPISCON0
+                                    181 	.globl _S0RELH
+                                    182 	.globl _IP1
+                                    183 	.globl _IEN1
+                                    184 	.globl _SPISRDSZ
+                                    185 	.globl _RTC2CPT00
+                                    186 	.globl _RTC2CMP1
+                                    187 	.globl _RTC2CMP0
+                                    188 	.globl _RTC2CON
+                                    189 	.globl _PWMCON
+                                    190 	.globl _RSTREAS
+                                    191 	.globl _P3
+                                    192 	.globl _WDSV
+                                    193 	.globl _OPMCON
+                                    194 	.globl _CLKLFCTRL
+                                    195 	.globl _RTC2CPT10
+                                    196 	.globl _RTC2CPT01
+                                    197 	.globl _S0RELL
+                                    198 	.globl _IP0
+                                    199 	.globl _IEN0
+                                    200 	.globl _MEMCON
+                                    201 	.globl _INTEXP
+                                    202 	.globl _WUCON
+                                    203 	.globl _PWRDWN
+                                    204 	.globl _CLKCTRL
+                                    205 	.globl _PWMDC1
+                                    206 	.globl _PWMDC0
+                                    207 	.globl _P2
+                                    208 	.globl _P1CON
+                                    209 	.globl _P0CON
+                                    210 	.globl _S0BUF
+                                    211 	.globl _S0CON
+                                    212 	.globl _P2CON
+                                    213 	.globl _P3DIR
+                                    214 	.globl _P2DIR
+                                    215 	.globl _P1DIR
+                                    216 	.globl _P0DIR
+                                    217 	.globl _DPS
+                                    218 	.globl _P1
+                                    219 	.globl _P3CON
+                                    220 	.globl _TH1
+                                    221 	.globl _TH0
+                                    222 	.globl _TL1
+                                    223 	.globl _TL0
+                                    224 	.globl _TMOD
+                                    225 	.globl _TCON
+                                    226 	.globl _PCON
+                                    227 	.globl _DPH1
+                                    228 	.globl _DPL1
+                                    229 	.globl _DPH
+                                    230 	.globl _DPL
+                                    231 	.globl _SP
+                                    232 	.globl _P0
+                                    233 	.globl _owi_search_devices_PARM_3
+                                    234 	.globl _owi_search_devices_PARM_2
+                                    235 	.globl _owi_search_devices
+                                    236 ;--------------------------------------------------------
+                                    237 ; special function registers
+                                    238 ;--------------------------------------------------------
+                                    239 	.area RSEG    (ABS,DATA)
+      000000                        240 	.org 0x0000
+                           000080   241 _P0	=	0x0080
+                           000081   242 _SP	=	0x0081
+                           000082   243 _DPL	=	0x0082
+                           000083   244 _DPH	=	0x0083
+                           000084   245 _DPL1	=	0x0084
+                           000085   246 _DPH1	=	0x0085
+                           000087   247 _PCON	=	0x0087
+                           000088   248 _TCON	=	0x0088
+                           000089   249 _TMOD	=	0x0089
+                           00008A   250 _TL0	=	0x008a
+                           00008B   251 _TL1	=	0x008b
+                           00008C   252 _TH0	=	0x008c
+                           00008D   253 _TH1	=	0x008d
+                           00008F   254 _P3CON	=	0x008f
+                           000090   255 _P1	=	0x0090
+                           000092   256 _DPS	=	0x0092
+                           000093   257 _P0DIR	=	0x0093
+                           000094   258 _P1DIR	=	0x0094
+                           000095   259 _P2DIR	=	0x0095
+                           000096   260 _P3DIR	=	0x0096
+                           000097   261 _P2CON	=	0x0097
+                           000098   262 _S0CON	=	0x0098
+                           000099   263 _S0BUF	=	0x0099
+                           00009E   264 _P0CON	=	0x009e
+                           00009F   265 _P1CON	=	0x009f
+                           0000A0   266 _P2	=	0x00a0
+                           0000A1   267 _PWMDC0	=	0x00a1
+                           0000A2   268 _PWMDC1	=	0x00a2
+                           0000A3   269 _CLKCTRL	=	0x00a3
+                           0000A4   270 _PWRDWN	=	0x00a4
+                           0000A5   271 _WUCON	=	0x00a5
+                           0000A6   272 _INTEXP	=	0x00a6
+                           0000A7   273 _MEMCON	=	0x00a7
+                           0000A8   274 _IEN0	=	0x00a8
+                           0000A9   275 _IP0	=	0x00a9
+                           0000AA   276 _S0RELL	=	0x00aa
+                           0000AB   277 _RTC2CPT01	=	0x00ab
+                           0000AC   278 _RTC2CPT10	=	0x00ac
+                           0000AD   279 _CLKLFCTRL	=	0x00ad
+                           0000AE   280 _OPMCON	=	0x00ae
+                           0000AF   281 _WDSV	=	0x00af
+                           0000B0   282 _P3	=	0x00b0
+                           0000B1   283 _RSTREAS	=	0x00b1
+                           0000B2   284 _PWMCON	=	0x00b2
+                           0000B3   285 _RTC2CON	=	0x00b3
+                           0000B4   286 _RTC2CMP0	=	0x00b4
+                           0000B5   287 _RTC2CMP1	=	0x00b5
+                           0000B6   288 _RTC2CPT00	=	0x00b6
+                           0000B7   289 _SPISRDSZ	=	0x00b7
+                           0000B8   290 _IEN1	=	0x00b8
+                           0000B9   291 _IP1	=	0x00b9
+                           0000BA   292 _S0RELH	=	0x00ba
+                           0000BC   293 _SPISCON0	=	0x00bc
+                           0000BD   294 _SPISCON1	=	0x00bd
+                           0000BE   295 _SPISSTAT	=	0x00be
+                           0000BF   296 _SPISDAT	=	0x00bf
+                           0000C0   297 _IRCON	=	0x00c0
+                           0000C1   298 _CCEN	=	0x00c1
+                           0000C2   299 _CCL1	=	0x00c2
+                           0000C3   300 _CCH1	=	0x00c3
+                           0000C4   301 _CCL2	=	0x00c4
+                           0000C5   302 _CCH2	=	0x00c5
+                           0000C6   303 _CCL3	=	0x00c6
+                           0000C7   304 _CCH3	=	0x00c7
+                           0000C8   305 _T2CON	=	0x00c8
+                           0000C9   306 _MPAGE	=	0x00c9
+                           0000C9   307 __XPAGE	=	0x00c9
+                           0000CA   308 _CRCL	=	0x00ca
+                           0000CB   309 _CRCH	=	0x00cb
+                           0000CC   310 _TL2	=	0x00cc
+                           0000CD   311 _TH2	=	0x00cd
+                           0000CE   312 _WUOPC1	=	0x00ce
+                           0000CF   313 _WUOPC0	=	0x00cf
+                           0000D0   314 _PSW	=	0x00d0
+                           0000D1   315 _ADCCON3	=	0x00d1
+                           0000D2   316 _ADCCON2	=	0x00d2
+                           0000D3   317 _ADCCON1	=	0x00d3
+                           0000D4   318 _ADCDATH	=	0x00d4
+                           0000D5   319 _ADCDATL	=	0x00d5
+                           0000D6   320 _RNGCTL	=	0x00d6
+                           0000D7   321 _RNGDAT	=	0x00d7
+                           0000D8   322 _ADCON	=	0x00d8
+                           0000D9   323 _W2SADR	=	0x00d9
+                           0000DA   324 _W2DAT	=	0x00da
+                           0000DB   325 _COMPCON	=	0x00db
+                           0000DC   326 _POFCON	=	0x00dc
+                           0000DD   327 _CCPDATIA	=	0x00dd
+                           0000DE   328 _CCPDATIB	=	0x00de
+                           0000DF   329 _CCPDATO	=	0x00df
+                           0000E0   330 _ACC	=	0x00e0
+                           0000E1   331 _W2CON1	=	0x00e1
+                           0000E2   332 _W2CON0	=	0x00e2
+                           0000E4   333 _SPIRCON0	=	0x00e4
+                           0000E5   334 _SPIRCON1	=	0x00e5
+                           0000E6   335 _SPIRSTAT	=	0x00e6
+                           0000E7   336 _SPIRDAT	=	0x00e7
+                           0000E8   337 _RFCON	=	0x00e8
+                           0000E9   338 _MD0	=	0x00e9
+                           0000EA   339 _MD1	=	0x00ea
+                           0000EB   340 _MD2	=	0x00eb
+                           0000EC   341 _MD3	=	0x00ec
+                           0000ED   342 _MD4	=	0x00ed
+                           0000EE   343 _MD5	=	0x00ee
+                           0000EF   344 _ARCON	=	0x00ef
+                           0000F0   345 _B	=	0x00f0
+                           0000F8   346 _FSR	=	0x00f8
+                           0000F9   347 _FPCR	=	0x00f9
+                           0000FA   348 _FCR	=	0x00fa
+                           0000FC   349 _SPIMCON0	=	0x00fc
+                           0000FD   350 _SPIMCON1	=	0x00fd
+                           0000FE   351 _SPIMSTAT	=	0x00fe
+                           0000FF   352 _SPIMDAT	=	0x00ff
+                           00C3C2   353 _CC1	=	0xc3c2
+                           00C5C4   354 _CC2	=	0xc5c4
+                           00C7C6   355 _CC3	=	0xc7c6
+                           00CBCA   356 _CRC	=	0xcbca
+                           008C8A   357 _T0	=	0x8c8a
+                           008D8B   358 _T1	=	0x8d8b
+                           00CDCC   359 _T2	=	0xcdcc
+                           00BAAA   360 _S0REL	=	0xbaaa
+                           00D4D5   361 _ADCDAT	=	0xd4d5
+                                    362 ;--------------------------------------------------------
+                                    363 ; special function bits
+                                    364 ;--------------------------------------------------------
+                                    365 	.area RSEG    (ABS,DATA)
+      000000                        366 	.org 0x0000
+                           000080   367 _P0_SB_D0	=	0x0080
+                           000081   368 _P0_SB_D1	=	0x0081
+                           000082   369 _P0_SB_D2	=	0x0082
+                           000083   370 _P0_SB_D3	=	0x0083
+                           000084   371 _P0_SB_D4	=	0x0084
+                           000085   372 _P0_SB_D5	=	0x0085
+                           000086   373 _P0_SB_D6	=	0x0086
+                           000087   374 _P0_SB_D7	=	0x0087
+                           000088   375 _TCON_SB_IT0	=	0x0088
+                           000089   376 _TCON_SB_IE0	=	0x0089
+                           00008A   377 _TCON_SB_IT1	=	0x008a
+                           00008B   378 _TCON_SB_IE1	=	0x008b
+                           00008C   379 _TCON_SB_TR0	=	0x008c
+                           00008D   380 _TCON_SB_TF0	=	0x008d
+                           00008E   381 _TCON_SB_TR1	=	0x008e
+                           00008F   382 _TCON_SB_TF1	=	0x008f
+                           000090   383 _P1_SB_D0	=	0x0090
+                           000091   384 _P1_SB_D1	=	0x0091
+                           000092   385 _P1_SB_D2	=	0x0092
+                           000093   386 _P1_SB_D3	=	0x0093
+                           000094   387 _P1_SB_D4	=	0x0094
+                           000095   388 _P1_SB_D5	=	0x0095
+                           000096   389 _P1_SB_D6	=	0x0096
+                           000097   390 _P1_SB_D7	=	0x0097
+                           000098   391 _S0CON_SB_RI0	=	0x0098
+                           000099   392 _S0CON_SB_TI0	=	0x0099
+                           00009A   393 _S0CON_SB_RB80	=	0x009a
+                           00009B   394 _S0CON_SB_TB80	=	0x009b
+                           00009C   395 _S0CON_SB_REN0	=	0x009c
+                           00009D   396 _S0CON_SB_SM20	=	0x009d
+                           00009E   397 _S0CON_SB_SM1	=	0x009e
+                           00009F   398 _S0CON_SB_SM0	=	0x009f
+                           0000A0   399 _P2_SB_D0	=	0x00a0
+                           0000A1   400 _P2_SB_D1	=	0x00a1
+                           0000A2   401 _P2_SB_D2	=	0x00a2
+                           0000A3   402 _P2_SB_D3	=	0x00a3
+                           0000A4   403 _P2_SB_D4	=	0x00a4
+                           0000A5   404 _P2_SB_D5	=	0x00a5
+                           0000A6   405 _P2_SB_D6	=	0x00a6
+                           0000A7   406 _P2_SB_D7	=	0x00a7
+                           0000A8   407 _IEN0_SB_IFP	=	0x00a8
+                           0000A9   408 _IEN0_SB_T0	=	0x00a9
+                           0000AA   409 _IEN0_SB_POFIRQ	=	0x00aa
+                           0000AB   410 _IEN0_SB_T1	=	0x00ab
+                           0000AC   411 _IEN0_SB_UART	=	0x00ac
+                           0000AD   412 _IEN0_SB_T2	=	0x00ad
+                           0000AF   413 _IEN0_SB_GLOBAL	=	0x00af
+                           0000B0   414 _P3_SB_D0	=	0x00b0
+                           0000B1   415 _P3_SB_D1	=	0x00b1
+                           0000B2   416 _P3_SB_D2	=	0x00b2
+                           0000B3   417 _P3_SB_D3	=	0x00b3
+                           0000B4   418 _P3_SB_D4	=	0x00b4
+                           0000B5   419 _P3_SB_D5	=	0x00b5
+                           0000B6   420 _P3_SB_D6	=	0x00b6
+                           0000B7   421 _P3_SB_D7	=	0x00b7
+                           0000B8   422 _IEN1_SB_RFRDY	=	0x00b8
+                           0000B9   423 _IEN1_SB_RFIRQ	=	0x00b9
+                           0000BA   424 _IEN1_SB_SPI_2WIRE	=	0x00ba
+                           0000BB   425 _IEN1_SB_WUOPIRQ	=	0x00bb
+                           0000BC   426 _IEN1_SB_MISCIRQ	=	0x00bc
+                           0000BD   427 _IEN1_SB_TICK	=	0x00bd
+                           0000BF   428 _IEN1_SB_T2EXTRLD	=	0x00bf
+                           0000C0   429 _IRCON_SB_RFRDY	=	0x00c0
+                           0000C1   430 _IRCON_SB_RFIRQ	=	0x00c1
+                           0000C2   431 _IRCON_SB_SPI_2WIRE	=	0x00c2
+                           0000C3   432 _IRCON_SB_WUOPIRQ	=	0x00c3
+                           0000C4   433 _IRCON_SB_MISCIRQ	=	0x00c4
+                           0000C5   434 _IRCON_SB_TICK	=	0x00c5
+                           0000C6   435 _IRCON_SB_TF2	=	0x00c6
+                           0000C7   436 _IRCON_SB_EXF2	=	0x00c7
+                           0000C8   437 _T2CON_SB_T2I0	=	0x00c8
+                           0000C9   438 _T2CON_SB_T2I1	=	0x00c9
+                           0000CA   439 _T2CON_SB_T2CM	=	0x00ca
+                           0000CB   440 _T2CON_SB_T2R0	=	0x00cb
+                           0000CC   441 _T2CON_SB_T2R1	=	0x00cc
+                           0000CD   442 _T2CON_SB_I2FR	=	0x00cd
+                           0000CE   443 _T2CON_SB_I3FR	=	0x00ce
+                           0000CF   444 _T2CON_SB_T2PS	=	0x00cf
+                           0000D7   445 _PSW_SB_CY	=	0x00d7
+                           0000D6   446 _PSW_SB_AC	=	0x00d6
+                           0000D5   447 _PSW_SB_F0	=	0x00d5
+                           0000D4   448 _PSW_SB_RS1	=	0x00d4
+                           0000D3   449 _PSW_SB_RS0	=	0x00d3
+                           0000D2   450 _PSW_SB_OV	=	0x00d2
+                           0000D1   451 _PSW_SB_F1	=	0x00d1
+                           0000D0   452 _PSW_SB_P	=	0x00d0
+                           0000DF   453 _ADCON_SB_BD	=	0x00df
+                           0000E8   454 _RFCON_SB_RFCE	=	0x00e8
+                           0000E9   455 _RFCON_SB_RFCSN	=	0x00e9
+                           0000EA   456 _RFCON_SB_RFCKEN	=	0x00ea
+                           0000FA   457 _FSR_SB_RDISMB	=	0x00fa
+                           0000FB   458 _FSR_SB_INFEN	=	0x00fb
+                           0000FC   459 _FSR_SB_RDYN	=	0x00fc
+                           0000FD   460 _FSR_SB_WEN	=	0x00fd
+                           0000FE   461 _FSR_SB_STP	=	0x00fe
+                           0000FF   462 _FSR_SB_ENDBG	=	0x00ff
+                                    463 ;--------------------------------------------------------
+                                    464 ; overlayable register banks
+                                    465 ;--------------------------------------------------------
+                                    466 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        467 	.ds 8
+                                    468 ;--------------------------------------------------------
+                                    469 ; internal ram data
+                                    470 ;--------------------------------------------------------
+                                    471 	.area DSEG    (DATA)
+      000000                        472 _owi_search_devices_last_bit_1_48:
+      000000                        473 	.ds 1
+      000001                        474 _owi_search_devices_sloc0_1_0:
+      000001                        475 	.ds 3
+                                    476 ;--------------------------------------------------------
+                                    477 ; overlayable items in internal ram 
+                                    478 ;--------------------------------------------------------
+                                    479 ;--------------------------------------------------------
+                                    480 ; indirectly addressable internal ram data
+                                    481 ;--------------------------------------------------------
+                                    482 	.area ISEG    (DATA)
+                                    483 ;--------------------------------------------------------
+                                    484 ; absolute internal ram data
+                                    485 ;--------------------------------------------------------
+                                    486 	.area IABS    (ABS,DATA)
+                                    487 	.area IABS    (ABS,DATA)
+                                    488 ;--------------------------------------------------------
+                                    489 ; bit data
+                                    490 ;--------------------------------------------------------
+                                    491 	.area BSEG    (BIT)
+                                    492 ;--------------------------------------------------------
+                                    493 ; paged external ram data
+                                    494 ;--------------------------------------------------------
+                                    495 	.area PSEG    (PAG,XDATA)
+                                    496 ;--------------------------------------------------------
+                                    497 ; external ram data
+                                    498 ;--------------------------------------------------------
+                                    499 	.area XSEG    (XDATA)
+      000000                        500 _owi_search_devices_PARM_2:
+      000000                        501 	.ds 3
+      000003                        502 _owi_search_devices_PARM_3:
+      000003                        503 	.ds 1
+      000004                        504 _owi_search_devices_owi_pin_id_1_47:
+      000004                        505 	.ds 1
+                                    506 ;--------------------------------------------------------
+                                    507 ; absolute external ram data
+                                    508 ;--------------------------------------------------------
+                                    509 	.area XABS    (ABS,XDATA)
+                                    510 ;--------------------------------------------------------
+                                    511 ; external initialized ram data
+                                    512 ;--------------------------------------------------------
+                                    513 	.area XISEG   (XDATA)
+                                    514 	.area HOME    (CODE)
+                                    515 	.area GSINIT0 (CODE)
+                                    516 	.area GSINIT1 (CODE)
+                                    517 	.area GSINIT2 (CODE)
+                                    518 	.area GSINIT3 (CODE)
+                                    519 	.area GSINIT4 (CODE)
+                                    520 	.area GSINIT5 (CODE)
+                                    521 	.area GSINIT  (CODE)
+                                    522 	.area GSFINAL (CODE)
+                                    523 	.area CSEG    (CODE)
+                                    524 ;--------------------------------------------------------
+                                    525 ; global & static initialisations
+                                    526 ;--------------------------------------------------------
+                                    527 	.area HOME    (CODE)
+                                    528 	.area GSINIT  (CODE)
+                                    529 	.area GSFINAL (CODE)
+                                    530 	.area GSINIT  (CODE)
+                                    531 ;--------------------------------------------------------
+                                    532 ; Home
+                                    533 ;--------------------------------------------------------
+                                    534 	.area HOME    (CODE)
+                                    535 	.area HOME    (CODE)
+                                    536 ;--------------------------------------------------------
+                                    537 ; code
+                                    538 ;--------------------------------------------------------
+                                    539 	.area CSEG    (CODE)
+                                    540 ;------------------------------------------------------------
+                                    541 ;Allocation info for local variables in function 'owi_search_devices'
+                                    542 ;------------------------------------------------------------
+                                    543 ;last_bit                  Allocated with name '_owi_search_devices_last_bit_1_48'
+                                    544 ;num_devices               Allocated to registers r2 
+                                    545 ;sloc0                     Allocated with name '_owi_search_devices_sloc0_1_0'
+                                    546 ;devices                   Allocated with name '_owi_search_devices_PARM_2'
+                                    547 ;max_devices               Allocated with name '_owi_search_devices_PARM_3'
+                                    548 ;owi_pin_id                Allocated with name '_owi_search_devices_owi_pin_id_1_47'
+                                    549 ;ptr_rom                   Allocated with name '_owi_search_devices_ptr_rom_1_48'
+                                    550 ;------------------------------------------------------------
+                                    551 ;	src/owi_search_devices.c:48: uint8_t owi_search_devices(gpio_pin_id_t owi_pin_id, owi_device_t * devices, uint8_t max_devices)
+                                    552 ;	-----------------------------------------
+                                    553 ;	 function owi_search_devices
+                                    554 ;	-----------------------------------------
+      000000                        555 _owi_search_devices:
+                           000007   556 	ar7 = 0x07
+                           000006   557 	ar6 = 0x06
+                           000005   558 	ar5 = 0x05
+                           000004   559 	ar4 = 0x04
+                           000003   560 	ar3 = 0x03
+                           000002   561 	ar2 = 0x02
+                           000001   562 	ar1 = 0x01
+                           000000   563 	ar0 = 0x00
+      000000 E5 82            [12]  564 	mov	a,dpl
+      000002 90r00r04         [24]  565 	mov	dptr,#_owi_search_devices_owi_pin_id_1_47
+      000005 F0               [24]  566 	movx	@dptr,a
+                                    567 ;	src/owi_search_devices.c:55: memset(devices, 0, max_devices * 8);
+      000006 90r00r00         [24]  568 	mov	dptr,#_owi_search_devices_PARM_2
+      000009 E0               [24]  569 	movx	a,@dptr
+      00000A FD               [12]  570 	mov	r5,a
+      00000B A3               [24]  571 	inc	dptr
+      00000C E0               [24]  572 	movx	a,@dptr
+      00000D FE               [12]  573 	mov	r6,a
+      00000E A3               [24]  574 	inc	dptr
+      00000F E0               [24]  575 	movx	a,@dptr
+      000010 FF               [12]  576 	mov	r7,a
+      000011 8D*01            [24]  577 	mov	_owi_search_devices_sloc0_1_0,r5
+      000013 8E*02            [24]  578 	mov	(_owi_search_devices_sloc0_1_0 + 1),r6
+      000015 8F*03            [24]  579 	mov	(_owi_search_devices_sloc0_1_0 + 2),r7
+      000017 90r00r03         [24]  580 	mov	dptr,#_owi_search_devices_PARM_3
+      00001A E0               [24]  581 	movx	a,@dptr
+      00001B F9               [12]  582 	mov	r1,a
+      00001C 75 F0 08         [24]  583 	mov	b,#0x08
+      00001F A4               [48]  584 	mul	ab
+      000020 F8               [12]  585 	mov	r0,a
+      000021 AC F0            [24]  586 	mov	r4,b
+      000023 90r00r00         [24]  587 	mov	dptr,#_memset_PARM_2
+      000026 E4               [12]  588 	clr	a
+      000027 F0               [24]  589 	movx	@dptr,a
+      000028 90r00r00         [24]  590 	mov	dptr,#_memset_PARM_3
+      00002B E8               [12]  591 	mov	a,r0
+      00002C F0               [24]  592 	movx	@dptr,a
+      00002D EC               [12]  593 	mov	a,r4
+      00002E A3               [24]  594 	inc	dptr
+      00002F F0               [24]  595 	movx	@dptr,a
+      000030 85*01 82         [24]  596 	mov	dpl,_owi_search_devices_sloc0_1_0
+      000033 85*02 83         [24]  597 	mov	dph,(_owi_search_devices_sloc0_1_0 + 1)
+      000036 85*03 F0         [24]  598 	mov	b,(_owi_search_devices_sloc0_1_0 + 2)
+      000039 C0 07            [24]  599 	push	ar7
+      00003B C0 06            [24]  600 	push	ar6
+      00003D C0 05            [24]  601 	push	ar5
+      00003F C0 01            [24]  602 	push	ar1
+      000041 12r00r00         [24]  603 	lcall	_memset
+      000044 D0 01            [24]  604 	pop	ar1
+      000046 D0 05            [24]  605 	pop	ar5
+      000048 D0 06            [24]  606 	pop	ar6
+      00004A D0 07            [24]  607 	pop	ar7
+                                    608 ;	src/owi_search_devices.c:58: do
+      00004C 90r00r04         [24]  609 	mov	dptr,#_owi_search_devices_owi_pin_id_1_47
+      00004F E0               [24]  610 	movx	a,@dptr
+      000050 FC               [12]  611 	mov	r4,a
+      000051 7B 00            [12]  612 	mov	r3,#0x00
+      000053                        613 00106$:
+                                    614 ;	src/owi_search_devices.c:60: ptr_rom = devices[num_devices].rom;
+      000053 EB               [12]  615 	mov	a,r3
+      000054 75 F0 08         [24]  616 	mov	b,#0x08
+      000057 A4               [48]  617 	mul	ab
+      000058 2D               [12]  618 	add	a,r5
+      000059 F5*01            [12]  619 	mov	_owi_search_devices_sloc0_1_0,a
+      00005B EE               [12]  620 	mov	a,r6
+      00005C 35 F0            [12]  621 	addc	a,b
+      00005E F5*02            [12]  622 	mov	(_owi_search_devices_sloc0_1_0 + 1),a
+      000060 8F*03            [24]  623 	mov	(_owi_search_devices_sloc0_1_0 + 2),r7
+                                    624 ;	src/owi_search_devices.c:61: if (owi_detect_presence(owi_pin_id))
+      000062 8C 82            [24]  625 	mov	dpl,r4
+      000064 C0 07            [24]  626 	push	ar7
+      000066 C0 06            [24]  627 	push	ar6
+      000068 C0 05            [24]  628 	push	ar5
+      00006A C0 04            [24]  629 	push	ar4
+      00006C C0 03            [24]  630 	push	ar3
+      00006E C0 01            [24]  631 	push	ar1
+      000070 12r00r00         [24]  632 	lcall	_owi_detect_presence
+      000073 E5 82            [12]  633 	mov	a,dpl
+      000075 D0 01            [24]  634 	pop	ar1
+      000077 D0 03            [24]  635 	pop	ar3
+      000079 D0 04            [24]  636 	pop	ar4
+      00007B D0 05            [24]  637 	pop	ar5
+      00007D D0 06            [24]  638 	pop	ar6
+      00007F D0 07            [24]  639 	pop	ar7
+      000081 60 04            [24]  640 	jz	00102$
+                                    641 ;	src/owi_search_devices.c:63: return OWI_SEARCH_ERROR;
+      000083 75 82 00         [24]  642 	mov	dpl,#0x00
+      000086 22               [24]  643 	ret
+      000087                        644 00102$:
+                                    645 ;	src/owi_search_devices.c:65: last_bit = owi_search_rom(owi_pin_id, ptr_rom, last_bit);
+      000087 90r00r00         [24]  646 	mov	dptr,#_owi_search_rom_PARM_2
+      00008A E5*01            [12]  647 	mov	a,_owi_search_devices_sloc0_1_0
+      00008C F0               [24]  648 	movx	@dptr,a
+      00008D E5*02            [12]  649 	mov	a,(_owi_search_devices_sloc0_1_0 + 1)
+      00008F A3               [24]  650 	inc	dptr
+      000090 F0               [24]  651 	movx	@dptr,a
+      000091 E5*03            [12]  652 	mov	a,(_owi_search_devices_sloc0_1_0 + 2)
+      000093 A3               [24]  653 	inc	dptr
+      000094 F0               [24]  654 	movx	@dptr,a
+      000095 90r00r00         [24]  655 	mov	dptr,#_owi_search_rom_PARM_3
+      000098 E5*00            [12]  656 	mov	a,_owi_search_devices_last_bit_1_48
+      00009A F0               [24]  657 	movx	@dptr,a
+      00009B 8C 82            [24]  658 	mov	dpl,r4
+      00009D C0 07            [24]  659 	push	ar7
+      00009F C0 06            [24]  660 	push	ar6
+      0000A1 C0 05            [24]  661 	push	ar5
+      0000A3 C0 04            [24]  662 	push	ar4
+      0000A5 C0 03            [24]  663 	push	ar3
+      0000A7 C0 01            [24]  664 	push	ar1
+      0000A9 12r00r00         [24]  665 	lcall	_owi_search_rom
+      0000AC 85 82*00         [24]  666 	mov	_owi_search_devices_last_bit_1_48,dpl
+      0000AF D0 01            [24]  667 	pop	ar1
+      0000B1 D0 03            [24]  668 	pop	ar3
+      0000B3 D0 04            [24]  669 	pop	ar4
+      0000B5 D0 05            [24]  670 	pop	ar5
+      0000B7 D0 06            [24]  671 	pop	ar6
+      0000B9 D0 07            [24]  672 	pop	ar7
+                                    673 ;	src/owi_search_devices.c:66: if (last_bit == OWI_SEARCH_ROM_FAILED)
+      0000BB 74 FF            [12]  674 	mov	a,#0xFF
+      0000BD B5*00 04         [24]  675 	cjne	a,_owi_search_devices_last_bit_1_48,00104$
+                                    676 ;	src/owi_search_devices.c:68: return OWI_SEARCH_ERROR;
+      0000C0 75 82 00         [24]  677 	mov	dpl,#0x00
+      0000C3 22               [24]  678 	ret
+      0000C4                        679 00104$:
+                                    680 ;	src/owi_search_devices.c:70: num_devices++;
+      0000C4 0B               [12]  681 	inc	r3
+      0000C5 8B 02            [24]  682 	mov	ar2,r3
+                                    683 ;	src/owi_search_devices.c:72: while ((last_bit != OWI_SEARCH_ROM_FINISHED) && (num_devices < max_devices));
+      0000C7 E5*00            [12]  684 	mov	a,_owi_search_devices_last_bit_1_48
+      0000C9 60 08            [24]  685 	jz	00108$
+      0000CB C3               [12]  686 	clr	c
+      0000CC EB               [12]  687 	mov	a,r3
+      0000CD 99               [12]  688 	subb	a,r1
+      0000CE 50 03            [24]  689 	jnc	00143$
+      0000D0 02r00r53         [24]  690 	ljmp	00106$
+      0000D3                        691 00143$:
+      0000D3                        692 00108$:
+                                    693 ;	src/owi_search_devices.c:74: last_bit = num_devices;
+      0000D3 8A*00            [24]  694 	mov	_owi_search_devices_last_bit_1_48,r2
+                                    695 ;	src/owi_search_devices.c:77: for (num_devices = 0; num_devices < last_bit; num_devices++)
+      0000D5 7C 00            [12]  696 	mov	r4,#0x00
+      0000D7                        697 00113$:
+      0000D7 C3               [12]  698 	clr	c
+      0000D8 EC               [12]  699 	mov	a,r4
+      0000D9 95*00            [12]  700 	subb	a,_owi_search_devices_last_bit_1_48
+      0000DB 50 30            [24]  701 	jnc	00111$
+                                    702 ;	src/owi_search_devices.c:80: if (owi_check_rom(devices[num_devices].rom) == OWI_CRC_ERROR)
+      0000DD EC               [12]  703 	mov	a,r4
+      0000DE 75 F0 08         [24]  704 	mov	b,#0x08
+      0000E1 A4               [48]  705 	mul	ab
+      0000E2 2D               [12]  706 	add	a,r5
+      0000E3 F9               [12]  707 	mov	r1,a
+      0000E4 EE               [12]  708 	mov	a,r6
+      0000E5 35 F0            [12]  709 	addc	a,b
+      0000E7 FA               [12]  710 	mov	r2,a
+      0000E8 8F 03            [24]  711 	mov	ar3,r7
+      0000EA 89 82            [24]  712 	mov	dpl,r1
+      0000EC 8A 83            [24]  713 	mov	dph,r2
+      0000EE 8B F0            [24]  714 	mov	b,r3
+      0000F0 C0 07            [24]  715 	push	ar7
+      0000F2 C0 06            [24]  716 	push	ar6
+      0000F4 C0 05            [24]  717 	push	ar5
+      0000F6 C0 04            [24]  718 	push	ar4
+      0000F8 12r00r00         [24]  719 	lcall	_owi_check_rom
+      0000FB AB 82            [24]  720 	mov	r3,dpl
+      0000FD D0 04            [24]  721 	pop	ar4
+      0000FF D0 05            [24]  722 	pop	ar5
+      000101 D0 06            [24]  723 	pop	ar6
+      000103 D0 07            [24]  724 	pop	ar7
+      000105 BB 01 02         [24]  725 	cjne	r3,#0x01,00145$
+      000108 80 03            [24]  726 	sjmp	00111$
+      00010A                        727 00145$:
+                                    728 ;	src/owi_search_devices.c:77: for (num_devices = 0; num_devices < last_bit; num_devices++)
+      00010A 0C               [12]  729 	inc	r4
+      00010B 80 CA            [24]  730 	sjmp	00113$
+      00010D                        731 00111$:
+                                    732 ;	src/owi_search_devices.c:85: return num_devices;
+      00010D 8C 82            [24]  733 	mov	dpl,r4
+      00010F 22               [24]  734 	ret
+                                    735 	.area CSEG    (CODE)
+                                    736 	.area CONST   (CODE)
+                                    737 	.area XINIT   (CODE)
+                                    738 	.area CABS    (ABS,CODE)

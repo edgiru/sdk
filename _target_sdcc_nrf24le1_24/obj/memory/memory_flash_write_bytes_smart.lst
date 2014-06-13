@@ -1,0 +1,1110 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
+                                      4 ; This file was generated Fri Jun 13 08:31:44 2014
+                                      5 ;--------------------------------------------------------
+                                      6 	.module memory_flash_write_bytes_smart
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _memory_flash_does_address_exist_in_flash
+                                     13 	.globl _memory_flash_get_page_size
+                                     14 	.globl _memory_flash_get_page_num_from_address
+                                     15 	.globl _memory_flash_get_page_start_address
+                                     16 	.globl _memory_flash_can_byte_be_written_without_page_erase
+                                     17 	.globl _memory_flash_copy_ram_to_page
+                                     18 	.globl _memory_flash_copy_page_to_ram
+                                     19 	.globl _memory_flash_erase_page
+                                     20 	.globl _FSR_SB_ENDBG
+                                     21 	.globl _FSR_SB_STP
+                                     22 	.globl _FSR_SB_WEN
+                                     23 	.globl _FSR_SB_RDYN
+                                     24 	.globl _FSR_SB_INFEN
+                                     25 	.globl _FSR_SB_RDISMB
+                                     26 	.globl _RFCON_SB_RFCKEN
+                                     27 	.globl _RFCON_SB_RFCSN
+                                     28 	.globl _RFCON_SB_RFCE
+                                     29 	.globl _ADCON_SB_BD
+                                     30 	.globl _PSW_SB_P
+                                     31 	.globl _PSW_SB_F1
+                                     32 	.globl _PSW_SB_OV
+                                     33 	.globl _PSW_SB_RS0
+                                     34 	.globl _PSW_SB_RS1
+                                     35 	.globl _PSW_SB_F0
+                                     36 	.globl _PSW_SB_AC
+                                     37 	.globl _PSW_SB_CY
+                                     38 	.globl _T2CON_SB_T2PS
+                                     39 	.globl _T2CON_SB_I3FR
+                                     40 	.globl _T2CON_SB_I2FR
+                                     41 	.globl _T2CON_SB_T2R1
+                                     42 	.globl _T2CON_SB_T2R0
+                                     43 	.globl _T2CON_SB_T2CM
+                                     44 	.globl _T2CON_SB_T2I1
+                                     45 	.globl _T2CON_SB_T2I0
+                                     46 	.globl _IRCON_SB_EXF2
+                                     47 	.globl _IRCON_SB_TF2
+                                     48 	.globl _IRCON_SB_TICK
+                                     49 	.globl _IRCON_SB_MISCIRQ
+                                     50 	.globl _IRCON_SB_WUOPIRQ
+                                     51 	.globl _IRCON_SB_SPI_2WIRE
+                                     52 	.globl _IRCON_SB_RFIRQ
+                                     53 	.globl _IRCON_SB_RFRDY
+                                     54 	.globl _IEN1_SB_T2EXTRLD
+                                     55 	.globl _IEN1_SB_TICK
+                                     56 	.globl _IEN1_SB_MISCIRQ
+                                     57 	.globl _IEN1_SB_WUOPIRQ
+                                     58 	.globl _IEN1_SB_SPI_2WIRE
+                                     59 	.globl _IEN1_SB_RFIRQ
+                                     60 	.globl _IEN1_SB_RFRDY
+                                     61 	.globl _P3_SB_D7
+                                     62 	.globl _P3_SB_D6
+                                     63 	.globl _P3_SB_D5
+                                     64 	.globl _P3_SB_D4
+                                     65 	.globl _P3_SB_D3
+                                     66 	.globl _P3_SB_D2
+                                     67 	.globl _P3_SB_D1
+                                     68 	.globl _P3_SB_D0
+                                     69 	.globl _IEN0_SB_GLOBAL
+                                     70 	.globl _IEN0_SB_T2
+                                     71 	.globl _IEN0_SB_UART
+                                     72 	.globl _IEN0_SB_T1
+                                     73 	.globl _IEN0_SB_POFIRQ
+                                     74 	.globl _IEN0_SB_T0
+                                     75 	.globl _IEN0_SB_IFP
+                                     76 	.globl _P2_SB_D7
+                                     77 	.globl _P2_SB_D6
+                                     78 	.globl _P2_SB_D5
+                                     79 	.globl _P2_SB_D4
+                                     80 	.globl _P2_SB_D3
+                                     81 	.globl _P2_SB_D2
+                                     82 	.globl _P2_SB_D1
+                                     83 	.globl _P2_SB_D0
+                                     84 	.globl _S0CON_SB_SM0
+                                     85 	.globl _S0CON_SB_SM1
+                                     86 	.globl _S0CON_SB_SM20
+                                     87 	.globl _S0CON_SB_REN0
+                                     88 	.globl _S0CON_SB_TB80
+                                     89 	.globl _S0CON_SB_RB80
+                                     90 	.globl _S0CON_SB_TI0
+                                     91 	.globl _S0CON_SB_RI0
+                                     92 	.globl _P1_SB_D7
+                                     93 	.globl _P1_SB_D6
+                                     94 	.globl _P1_SB_D5
+                                     95 	.globl _P1_SB_D4
+                                     96 	.globl _P1_SB_D3
+                                     97 	.globl _P1_SB_D2
+                                     98 	.globl _P1_SB_D1
+                                     99 	.globl _P1_SB_D0
+                                    100 	.globl _TCON_SB_TF1
+                                    101 	.globl _TCON_SB_TR1
+                                    102 	.globl _TCON_SB_TF0
+                                    103 	.globl _TCON_SB_TR0
+                                    104 	.globl _TCON_SB_IE1
+                                    105 	.globl _TCON_SB_IT1
+                                    106 	.globl _TCON_SB_IE0
+                                    107 	.globl _TCON_SB_IT0
+                                    108 	.globl _P0_SB_D7
+                                    109 	.globl _P0_SB_D6
+                                    110 	.globl _P0_SB_D5
+                                    111 	.globl _P0_SB_D4
+                                    112 	.globl _P0_SB_D3
+                                    113 	.globl _P0_SB_D2
+                                    114 	.globl _P0_SB_D1
+                                    115 	.globl _P0_SB_D0
+                                    116 	.globl _ADCDAT
+                                    117 	.globl _S0REL
+                                    118 	.globl _T2
+                                    119 	.globl _T1
+                                    120 	.globl _T0
+                                    121 	.globl _CRC
+                                    122 	.globl _CC3
+                                    123 	.globl _CC2
+                                    124 	.globl _CC1
+                                    125 	.globl _SPIMDAT
+                                    126 	.globl _SPIMSTAT
+                                    127 	.globl _SPIMCON1
+                                    128 	.globl _SPIMCON0
+                                    129 	.globl _FCR
+                                    130 	.globl _FPCR
+                                    131 	.globl _FSR
+                                    132 	.globl _B
+                                    133 	.globl _ARCON
+                                    134 	.globl _MD5
+                                    135 	.globl _MD4
+                                    136 	.globl _MD3
+                                    137 	.globl _MD2
+                                    138 	.globl _MD1
+                                    139 	.globl _MD0
+                                    140 	.globl _RFCON
+                                    141 	.globl _SPIRDAT
+                                    142 	.globl _SPIRSTAT
+                                    143 	.globl _SPIRCON1
+                                    144 	.globl _SPIRCON0
+                                    145 	.globl _W2CON0
+                                    146 	.globl _W2CON1
+                                    147 	.globl _ACC
+                                    148 	.globl _CCPDATO
+                                    149 	.globl _CCPDATIB
+                                    150 	.globl _CCPDATIA
+                                    151 	.globl _POFCON
+                                    152 	.globl _COMPCON
+                                    153 	.globl _W2DAT
+                                    154 	.globl _W2SADR
+                                    155 	.globl _ADCON
+                                    156 	.globl _RNGDAT
+                                    157 	.globl _RNGCTL
+                                    158 	.globl _ADCDATL
+                                    159 	.globl _ADCDATH
+                                    160 	.globl _ADCCON1
+                                    161 	.globl _ADCCON2
+                                    162 	.globl _ADCCON3
+                                    163 	.globl _PSW
+                                    164 	.globl _WUOPC0
+                                    165 	.globl _WUOPC1
+                                    166 	.globl _TH2
+                                    167 	.globl _TL2
+                                    168 	.globl _CRCH
+                                    169 	.globl _CRCL
+                                    170 	.globl __XPAGE
+                                    171 	.globl _MPAGE
+                                    172 	.globl _T2CON
+                                    173 	.globl _CCH3
+                                    174 	.globl _CCL3
+                                    175 	.globl _CCH2
+                                    176 	.globl _CCL2
+                                    177 	.globl _CCH1
+                                    178 	.globl _CCL1
+                                    179 	.globl _CCEN
+                                    180 	.globl _IRCON
+                                    181 	.globl _SPISDAT
+                                    182 	.globl _SPISSTAT
+                                    183 	.globl _SPISCON1
+                                    184 	.globl _SPISCON0
+                                    185 	.globl _S0RELH
+                                    186 	.globl _IP1
+                                    187 	.globl _IEN1
+                                    188 	.globl _SPISRDSZ
+                                    189 	.globl _RTC2CPT00
+                                    190 	.globl _RTC2CMP1
+                                    191 	.globl _RTC2CMP0
+                                    192 	.globl _RTC2CON
+                                    193 	.globl _PWMCON
+                                    194 	.globl _RSTREAS
+                                    195 	.globl _P3
+                                    196 	.globl _WDSV
+                                    197 	.globl _OPMCON
+                                    198 	.globl _CLKLFCTRL
+                                    199 	.globl _RTC2CPT10
+                                    200 	.globl _RTC2CPT01
+                                    201 	.globl _S0RELL
+                                    202 	.globl _IP0
+                                    203 	.globl _IEN0
+                                    204 	.globl _MEMCON
+                                    205 	.globl _INTEXP
+                                    206 	.globl _WUCON
+                                    207 	.globl _PWRDWN
+                                    208 	.globl _CLKCTRL
+                                    209 	.globl _PWMDC1
+                                    210 	.globl _PWMDC0
+                                    211 	.globl _P2
+                                    212 	.globl _P1CON
+                                    213 	.globl _P0CON
+                                    214 	.globl _S0BUF
+                                    215 	.globl _S0CON
+                                    216 	.globl _P2CON
+                                    217 	.globl _P3DIR
+                                    218 	.globl _P2DIR
+                                    219 	.globl _P1DIR
+                                    220 	.globl _P0DIR
+                                    221 	.globl _DPS
+                                    222 	.globl _P1
+                                    223 	.globl _P3CON
+                                    224 	.globl _TH1
+                                    225 	.globl _TH0
+                                    226 	.globl _TL1
+                                    227 	.globl _TL0
+                                    228 	.globl _TMOD
+                                    229 	.globl _TCON
+                                    230 	.globl _PCON
+                                    231 	.globl _DPH1
+                                    232 	.globl _DPL1
+                                    233 	.globl _DPH
+                                    234 	.globl _DPL
+                                    235 	.globl _SP
+                                    236 	.globl _P0
+                                    237 	.globl _memory_flash_write_bytes_smart_PARM_4
+                                    238 	.globl _memory_flash_write_bytes_smart_PARM_3
+                                    239 	.globl _memory_flash_write_bytes_smart_PARM_2
+                                    240 	.globl _memory_flash_write_bytes_smart
+                                    241 ;--------------------------------------------------------
+                                    242 ; special function registers
+                                    243 ;--------------------------------------------------------
+                                    244 	.area RSEG    (ABS,DATA)
+      000000                        245 	.org 0x0000
+                           000080   246 _P0	=	0x0080
+                           000081   247 _SP	=	0x0081
+                           000082   248 _DPL	=	0x0082
+                           000083   249 _DPH	=	0x0083
+                           000084   250 _DPL1	=	0x0084
+                           000085   251 _DPH1	=	0x0085
+                           000087   252 _PCON	=	0x0087
+                           000088   253 _TCON	=	0x0088
+                           000089   254 _TMOD	=	0x0089
+                           00008A   255 _TL0	=	0x008a
+                           00008B   256 _TL1	=	0x008b
+                           00008C   257 _TH0	=	0x008c
+                           00008D   258 _TH1	=	0x008d
+                           00008F   259 _P3CON	=	0x008f
+                           000090   260 _P1	=	0x0090
+                           000092   261 _DPS	=	0x0092
+                           000093   262 _P0DIR	=	0x0093
+                           000094   263 _P1DIR	=	0x0094
+                           000095   264 _P2DIR	=	0x0095
+                           000096   265 _P3DIR	=	0x0096
+                           000097   266 _P2CON	=	0x0097
+                           000098   267 _S0CON	=	0x0098
+                           000099   268 _S0BUF	=	0x0099
+                           00009E   269 _P0CON	=	0x009e
+                           00009F   270 _P1CON	=	0x009f
+                           0000A0   271 _P2	=	0x00a0
+                           0000A1   272 _PWMDC0	=	0x00a1
+                           0000A2   273 _PWMDC1	=	0x00a2
+                           0000A3   274 _CLKCTRL	=	0x00a3
+                           0000A4   275 _PWRDWN	=	0x00a4
+                           0000A5   276 _WUCON	=	0x00a5
+                           0000A6   277 _INTEXP	=	0x00a6
+                           0000A7   278 _MEMCON	=	0x00a7
+                           0000A8   279 _IEN0	=	0x00a8
+                           0000A9   280 _IP0	=	0x00a9
+                           0000AA   281 _S0RELL	=	0x00aa
+                           0000AB   282 _RTC2CPT01	=	0x00ab
+                           0000AC   283 _RTC2CPT10	=	0x00ac
+                           0000AD   284 _CLKLFCTRL	=	0x00ad
+                           0000AE   285 _OPMCON	=	0x00ae
+                           0000AF   286 _WDSV	=	0x00af
+                           0000B0   287 _P3	=	0x00b0
+                           0000B1   288 _RSTREAS	=	0x00b1
+                           0000B2   289 _PWMCON	=	0x00b2
+                           0000B3   290 _RTC2CON	=	0x00b3
+                           0000B4   291 _RTC2CMP0	=	0x00b4
+                           0000B5   292 _RTC2CMP1	=	0x00b5
+                           0000B6   293 _RTC2CPT00	=	0x00b6
+                           0000B7   294 _SPISRDSZ	=	0x00b7
+                           0000B8   295 _IEN1	=	0x00b8
+                           0000B9   296 _IP1	=	0x00b9
+                           0000BA   297 _S0RELH	=	0x00ba
+                           0000BC   298 _SPISCON0	=	0x00bc
+                           0000BD   299 _SPISCON1	=	0x00bd
+                           0000BE   300 _SPISSTAT	=	0x00be
+                           0000BF   301 _SPISDAT	=	0x00bf
+                           0000C0   302 _IRCON	=	0x00c0
+                           0000C1   303 _CCEN	=	0x00c1
+                           0000C2   304 _CCL1	=	0x00c2
+                           0000C3   305 _CCH1	=	0x00c3
+                           0000C4   306 _CCL2	=	0x00c4
+                           0000C5   307 _CCH2	=	0x00c5
+                           0000C6   308 _CCL3	=	0x00c6
+                           0000C7   309 _CCH3	=	0x00c7
+                           0000C8   310 _T2CON	=	0x00c8
+                           0000C9   311 _MPAGE	=	0x00c9
+                           0000C9   312 __XPAGE	=	0x00c9
+                           0000CA   313 _CRCL	=	0x00ca
+                           0000CB   314 _CRCH	=	0x00cb
+                           0000CC   315 _TL2	=	0x00cc
+                           0000CD   316 _TH2	=	0x00cd
+                           0000CE   317 _WUOPC1	=	0x00ce
+                           0000CF   318 _WUOPC0	=	0x00cf
+                           0000D0   319 _PSW	=	0x00d0
+                           0000D1   320 _ADCCON3	=	0x00d1
+                           0000D2   321 _ADCCON2	=	0x00d2
+                           0000D3   322 _ADCCON1	=	0x00d3
+                           0000D4   323 _ADCDATH	=	0x00d4
+                           0000D5   324 _ADCDATL	=	0x00d5
+                           0000D6   325 _RNGCTL	=	0x00d6
+                           0000D7   326 _RNGDAT	=	0x00d7
+                           0000D8   327 _ADCON	=	0x00d8
+                           0000D9   328 _W2SADR	=	0x00d9
+                           0000DA   329 _W2DAT	=	0x00da
+                           0000DB   330 _COMPCON	=	0x00db
+                           0000DC   331 _POFCON	=	0x00dc
+                           0000DD   332 _CCPDATIA	=	0x00dd
+                           0000DE   333 _CCPDATIB	=	0x00de
+                           0000DF   334 _CCPDATO	=	0x00df
+                           0000E0   335 _ACC	=	0x00e0
+                           0000E1   336 _W2CON1	=	0x00e1
+                           0000E2   337 _W2CON0	=	0x00e2
+                           0000E4   338 _SPIRCON0	=	0x00e4
+                           0000E5   339 _SPIRCON1	=	0x00e5
+                           0000E6   340 _SPIRSTAT	=	0x00e6
+                           0000E7   341 _SPIRDAT	=	0x00e7
+                           0000E8   342 _RFCON	=	0x00e8
+                           0000E9   343 _MD0	=	0x00e9
+                           0000EA   344 _MD1	=	0x00ea
+                           0000EB   345 _MD2	=	0x00eb
+                           0000EC   346 _MD3	=	0x00ec
+                           0000ED   347 _MD4	=	0x00ed
+                           0000EE   348 _MD5	=	0x00ee
+                           0000EF   349 _ARCON	=	0x00ef
+                           0000F0   350 _B	=	0x00f0
+                           0000F8   351 _FSR	=	0x00f8
+                           0000F9   352 _FPCR	=	0x00f9
+                           0000FA   353 _FCR	=	0x00fa
+                           0000FC   354 _SPIMCON0	=	0x00fc
+                           0000FD   355 _SPIMCON1	=	0x00fd
+                           0000FE   356 _SPIMSTAT	=	0x00fe
+                           0000FF   357 _SPIMDAT	=	0x00ff
+                           00C3C2   358 _CC1	=	0xc3c2
+                           00C5C4   359 _CC2	=	0xc5c4
+                           00C7C6   360 _CC3	=	0xc7c6
+                           00CBCA   361 _CRC	=	0xcbca
+                           008C8A   362 _T0	=	0x8c8a
+                           008D8B   363 _T1	=	0x8d8b
+                           00CDCC   364 _T2	=	0xcdcc
+                           00BAAA   365 _S0REL	=	0xbaaa
+                           00D4D5   366 _ADCDAT	=	0xd4d5
+                                    367 ;--------------------------------------------------------
+                                    368 ; special function bits
+                                    369 ;--------------------------------------------------------
+                                    370 	.area RSEG    (ABS,DATA)
+      000000                        371 	.org 0x0000
+                           000080   372 _P0_SB_D0	=	0x0080
+                           000081   373 _P0_SB_D1	=	0x0081
+                           000082   374 _P0_SB_D2	=	0x0082
+                           000083   375 _P0_SB_D3	=	0x0083
+                           000084   376 _P0_SB_D4	=	0x0084
+                           000085   377 _P0_SB_D5	=	0x0085
+                           000086   378 _P0_SB_D6	=	0x0086
+                           000087   379 _P0_SB_D7	=	0x0087
+                           000088   380 _TCON_SB_IT0	=	0x0088
+                           000089   381 _TCON_SB_IE0	=	0x0089
+                           00008A   382 _TCON_SB_IT1	=	0x008a
+                           00008B   383 _TCON_SB_IE1	=	0x008b
+                           00008C   384 _TCON_SB_TR0	=	0x008c
+                           00008D   385 _TCON_SB_TF0	=	0x008d
+                           00008E   386 _TCON_SB_TR1	=	0x008e
+                           00008F   387 _TCON_SB_TF1	=	0x008f
+                           000090   388 _P1_SB_D0	=	0x0090
+                           000091   389 _P1_SB_D1	=	0x0091
+                           000092   390 _P1_SB_D2	=	0x0092
+                           000093   391 _P1_SB_D3	=	0x0093
+                           000094   392 _P1_SB_D4	=	0x0094
+                           000095   393 _P1_SB_D5	=	0x0095
+                           000096   394 _P1_SB_D6	=	0x0096
+                           000097   395 _P1_SB_D7	=	0x0097
+                           000098   396 _S0CON_SB_RI0	=	0x0098
+                           000099   397 _S0CON_SB_TI0	=	0x0099
+                           00009A   398 _S0CON_SB_RB80	=	0x009a
+                           00009B   399 _S0CON_SB_TB80	=	0x009b
+                           00009C   400 _S0CON_SB_REN0	=	0x009c
+                           00009D   401 _S0CON_SB_SM20	=	0x009d
+                           00009E   402 _S0CON_SB_SM1	=	0x009e
+                           00009F   403 _S0CON_SB_SM0	=	0x009f
+                           0000A0   404 _P2_SB_D0	=	0x00a0
+                           0000A1   405 _P2_SB_D1	=	0x00a1
+                           0000A2   406 _P2_SB_D2	=	0x00a2
+                           0000A3   407 _P2_SB_D3	=	0x00a3
+                           0000A4   408 _P2_SB_D4	=	0x00a4
+                           0000A5   409 _P2_SB_D5	=	0x00a5
+                           0000A6   410 _P2_SB_D6	=	0x00a6
+                           0000A7   411 _P2_SB_D7	=	0x00a7
+                           0000A8   412 _IEN0_SB_IFP	=	0x00a8
+                           0000A9   413 _IEN0_SB_T0	=	0x00a9
+                           0000AA   414 _IEN0_SB_POFIRQ	=	0x00aa
+                           0000AB   415 _IEN0_SB_T1	=	0x00ab
+                           0000AC   416 _IEN0_SB_UART	=	0x00ac
+                           0000AD   417 _IEN0_SB_T2	=	0x00ad
+                           0000AF   418 _IEN0_SB_GLOBAL	=	0x00af
+                           0000B0   419 _P3_SB_D0	=	0x00b0
+                           0000B1   420 _P3_SB_D1	=	0x00b1
+                           0000B2   421 _P3_SB_D2	=	0x00b2
+                           0000B3   422 _P3_SB_D3	=	0x00b3
+                           0000B4   423 _P3_SB_D4	=	0x00b4
+                           0000B5   424 _P3_SB_D5	=	0x00b5
+                           0000B6   425 _P3_SB_D6	=	0x00b6
+                           0000B7   426 _P3_SB_D7	=	0x00b7
+                           0000B8   427 _IEN1_SB_RFRDY	=	0x00b8
+                           0000B9   428 _IEN1_SB_RFIRQ	=	0x00b9
+                           0000BA   429 _IEN1_SB_SPI_2WIRE	=	0x00ba
+                           0000BB   430 _IEN1_SB_WUOPIRQ	=	0x00bb
+                           0000BC   431 _IEN1_SB_MISCIRQ	=	0x00bc
+                           0000BD   432 _IEN1_SB_TICK	=	0x00bd
+                           0000BF   433 _IEN1_SB_T2EXTRLD	=	0x00bf
+                           0000C0   434 _IRCON_SB_RFRDY	=	0x00c0
+                           0000C1   435 _IRCON_SB_RFIRQ	=	0x00c1
+                           0000C2   436 _IRCON_SB_SPI_2WIRE	=	0x00c2
+                           0000C3   437 _IRCON_SB_WUOPIRQ	=	0x00c3
+                           0000C4   438 _IRCON_SB_MISCIRQ	=	0x00c4
+                           0000C5   439 _IRCON_SB_TICK	=	0x00c5
+                           0000C6   440 _IRCON_SB_TF2	=	0x00c6
+                           0000C7   441 _IRCON_SB_EXF2	=	0x00c7
+                           0000C8   442 _T2CON_SB_T2I0	=	0x00c8
+                           0000C9   443 _T2CON_SB_T2I1	=	0x00c9
+                           0000CA   444 _T2CON_SB_T2CM	=	0x00ca
+                           0000CB   445 _T2CON_SB_T2R0	=	0x00cb
+                           0000CC   446 _T2CON_SB_T2R1	=	0x00cc
+                           0000CD   447 _T2CON_SB_I2FR	=	0x00cd
+                           0000CE   448 _T2CON_SB_I3FR	=	0x00ce
+                           0000CF   449 _T2CON_SB_T2PS	=	0x00cf
+                           0000D7   450 _PSW_SB_CY	=	0x00d7
+                           0000D6   451 _PSW_SB_AC	=	0x00d6
+                           0000D5   452 _PSW_SB_F0	=	0x00d5
+                           0000D4   453 _PSW_SB_RS1	=	0x00d4
+                           0000D3   454 _PSW_SB_RS0	=	0x00d3
+                           0000D2   455 _PSW_SB_OV	=	0x00d2
+                           0000D1   456 _PSW_SB_F1	=	0x00d1
+                           0000D0   457 _PSW_SB_P	=	0x00d0
+                           0000DF   458 _ADCON_SB_BD	=	0x00df
+                           0000E8   459 _RFCON_SB_RFCE	=	0x00e8
+                           0000E9   460 _RFCON_SB_RFCSN	=	0x00e9
+                           0000EA   461 _RFCON_SB_RFCKEN	=	0x00ea
+                           0000FA   462 _FSR_SB_RDISMB	=	0x00fa
+                           0000FB   463 _FSR_SB_INFEN	=	0x00fb
+                           0000FC   464 _FSR_SB_RDYN	=	0x00fc
+                           0000FD   465 _FSR_SB_WEN	=	0x00fd
+                           0000FE   466 _FSR_SB_STP	=	0x00fe
+                           0000FF   467 _FSR_SB_ENDBG	=	0x00ff
+                                    468 ;--------------------------------------------------------
+                                    469 ; overlayable register banks
+                                    470 ;--------------------------------------------------------
+                                    471 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        472 	.ds 8
+                                    473 ;--------------------------------------------------------
+                                    474 ; internal ram data
+                                    475 ;--------------------------------------------------------
+                                    476 	.area DSEG    (DATA)
+      000000                        477 _memory_flash_write_bytes_smart_sloc0_1_0:
+      000000                        478 	.ds 1
+      000001                        479 _memory_flash_write_bytes_smart_sloc1_1_0:
+      000001                        480 	.ds 2
+      000003                        481 _memory_flash_write_bytes_smart_sloc2_1_0:
+      000003                        482 	.ds 2
+      000005                        483 _memory_flash_write_bytes_smart_sloc3_1_0:
+      000005                        484 	.ds 3
+      000008                        485 _memory_flash_write_bytes_smart_sloc4_1_0:
+      000008                        486 	.ds 1
+      000009                        487 _memory_flash_write_bytes_smart_sloc5_1_0:
+      000009                        488 	.ds 1
+      00000A                        489 _memory_flash_write_bytes_smart_sloc6_1_0:
+      00000A                        490 	.ds 3
+                                    491 ;--------------------------------------------------------
+                                    492 ; overlayable items in internal ram 
+                                    493 ;--------------------------------------------------------
+                                    494 ;--------------------------------------------------------
+                                    495 ; indirectly addressable internal ram data
+                                    496 ;--------------------------------------------------------
+                                    497 	.area ISEG    (DATA)
+                                    498 ;--------------------------------------------------------
+                                    499 ; absolute internal ram data
+                                    500 ;--------------------------------------------------------
+                                    501 	.area IABS    (ABS,DATA)
+                                    502 	.area IABS    (ABS,DATA)
+                                    503 ;--------------------------------------------------------
+                                    504 ; bit data
+                                    505 ;--------------------------------------------------------
+                                    506 	.area BSEG    (BIT)
+                                    507 ;--------------------------------------------------------
+                                    508 ; paged external ram data
+                                    509 ;--------------------------------------------------------
+                                    510 	.area PSEG    (PAG,XDATA)
+                                    511 ;--------------------------------------------------------
+                                    512 ; external ram data
+                                    513 ;--------------------------------------------------------
+                                    514 	.area XSEG    (XDATA)
+      000000                        515 _memory_flash_write_bytes_smart_PARM_2:
+      000000                        516 	.ds 2
+      000002                        517 _memory_flash_write_bytes_smart_PARM_3:
+      000002                        518 	.ds 3
+      000005                        519 _memory_flash_write_bytes_smart_PARM_4:
+      000005                        520 	.ds 3
+      000008                        521 _memory_flash_write_bytes_smart_start_address_1_14:
+      000008                        522 	.ds 2
+      00000A                        523 _memory_flash_write_bytes_smart_cur_page_num_1_15:
+      00000A                        524 	.ds 1
+      00000B                        525 _memory_flash_write_bytes_smart_page_start_offset_1_15:
+      00000B                        526 	.ds 2
+      00000D                        527 _memory_flash_write_bytes_smart_bytes_written_1_15:
+      00000D                        528 	.ds 2
+      00000F                        529 _memory_flash_write_bytes_smart_page_size_1_15:
+      00000F                        530 	.ds 2
+      000011                        531 _memory_flash_write_bytes_smart_page_start_address_1_15:
+      000011                        532 	.ds 2
+      000013                        533 _memory_flash_write_bytes_smart_erase_cur_page_1_15:
+      000013                        534 	.ds 1
+      000014                        535 _memory_flash_write_bytes_smart_write_cur_page_1_15:
+      000014                        536 	.ds 1
+                                    537 ;--------------------------------------------------------
+                                    538 ; absolute external ram data
+                                    539 ;--------------------------------------------------------
+                                    540 	.area XABS    (ABS,XDATA)
+                                    541 ;--------------------------------------------------------
+                                    542 ; external initialized ram data
+                                    543 ;--------------------------------------------------------
+                                    544 	.area XISEG   (XDATA)
+                                    545 	.area HOME    (CODE)
+                                    546 	.area GSINIT0 (CODE)
+                                    547 	.area GSINIT1 (CODE)
+                                    548 	.area GSINIT2 (CODE)
+                                    549 	.area GSINIT3 (CODE)
+                                    550 	.area GSINIT4 (CODE)
+                                    551 	.area GSINIT5 (CODE)
+                                    552 	.area GSINIT  (CODE)
+                                    553 	.area GSFINAL (CODE)
+                                    554 	.area CSEG    (CODE)
+                                    555 ;--------------------------------------------------------
+                                    556 ; global & static initialisations
+                                    557 ;--------------------------------------------------------
+                                    558 	.area HOME    (CODE)
+                                    559 	.area GSINIT  (CODE)
+                                    560 	.area GSFINAL (CODE)
+                                    561 	.area GSINIT  (CODE)
+                                    562 ;--------------------------------------------------------
+                                    563 ; Home
+                                    564 ;--------------------------------------------------------
+                                    565 	.area HOME    (CODE)
+                                    566 	.area HOME    (CODE)
+                                    567 ;--------------------------------------------------------
+                                    568 ; code
+                                    569 ;--------------------------------------------------------
+                                    570 	.area CSEG    (CODE)
+                                    571 ;------------------------------------------------------------
+                                    572 ;Allocation info for local variables in function 'memory_flash_write_bytes_smart'
+                                    573 ;------------------------------------------------------------
+                                    574 ;sloc0                     Allocated with name '_memory_flash_write_bytes_smart_sloc0_1_0'
+                                    575 ;sloc1                     Allocated with name '_memory_flash_write_bytes_smart_sloc1_1_0'
+                                    576 ;sloc2                     Allocated with name '_memory_flash_write_bytes_smart_sloc2_1_0'
+                                    577 ;sloc3                     Allocated with name '_memory_flash_write_bytes_smart_sloc3_1_0'
+                                    578 ;sloc4                     Allocated with name '_memory_flash_write_bytes_smart_sloc4_1_0'
+                                    579 ;sloc5                     Allocated with name '_memory_flash_write_bytes_smart_sloc5_1_0'
+                                    580 ;sloc6                     Allocated with name '_memory_flash_write_bytes_smart_sloc6_1_0'
+                                    581 ;num_bytes_to_write        Allocated with name '_memory_flash_write_bytes_smart_PARM_2'
+                                    582 ;data_array                Allocated with name '_memory_flash_write_bytes_smart_PARM_3'
+                                    583 ;page_buffer               Allocated with name '_memory_flash_write_bytes_smart_PARM_4'
+                                    584 ;start_address             Allocated with name '_memory_flash_write_bytes_smart_start_address_1_14'
+                                    585 ;cur_page_num              Allocated with name '_memory_flash_write_bytes_smart_cur_page_num_1_15'
+                                    586 ;i                         Allocated with name '_memory_flash_write_bytes_smart_i_1_15'
+                                    587 ;page_start_offset         Allocated with name '_memory_flash_write_bytes_smart_page_start_offset_1_15'
+                                    588 ;bytes_written             Allocated with name '_memory_flash_write_bytes_smart_bytes_written_1_15'
+                                    589 ;page_size                 Allocated with name '_memory_flash_write_bytes_smart_page_size_1_15'
+                                    590 ;page_start_address        Allocated with name '_memory_flash_write_bytes_smart_page_start_address_1_15'
+                                    591 ;erase_cur_page            Allocated with name '_memory_flash_write_bytes_smart_erase_cur_page_1_15'
+                                    592 ;write_cur_page            Allocated with name '_memory_flash_write_bytes_smart_write_cur_page_1_15'
+                                    593 ;------------------------------------------------------------
+                                    594 ;	src/memory_flash_write_bytes_smart.c:51: memory_flash_return_t memory_flash_write_bytes_smart(uint16_t start_address, uint16_t num_bytes_to_write, uint8_t * data_array, uint8_t * page_buffer)
+                                    595 ;	-----------------------------------------
+                                    596 ;	 function memory_flash_write_bytes_smart
+                                    597 ;	-----------------------------------------
+      000000                        598 _memory_flash_write_bytes_smart:
+                           000007   599 	ar7 = 0x07
+                           000006   600 	ar6 = 0x06
+                           000005   601 	ar5 = 0x05
+                           000004   602 	ar4 = 0x04
+                           000003   603 	ar3 = 0x03
+                           000002   604 	ar2 = 0x02
+                           000001   605 	ar1 = 0x01
+                           000000   606 	ar0 = 0x00
+      000000 AF 83            [24]  607 	mov	r7,dph
+      000002 E5 82            [12]  608 	mov	a,dpl
+      000004 90r00r08         [24]  609 	mov	dptr,#_memory_flash_write_bytes_smart_start_address_1_14
+      000007 F0               [24]  610 	movx	@dptr,a
+      000008 EF               [12]  611 	mov	a,r7
+      000009 A3               [24]  612 	inc	dptr
+      00000A F0               [24]  613 	movx	@dptr,a
+                                    614 ;	src/memory_flash_write_bytes_smart.c:54: uint16_t i, page_start_offset, bytes_written = 0, page_size, page_start_address;
+      00000B 90r00r0D         [24]  615 	mov	dptr,#_memory_flash_write_bytes_smart_bytes_written_1_15
+      00000E E4               [12]  616 	clr	a
+      00000F F0               [24]  617 	movx	@dptr,a
+      000010 A3               [24]  618 	inc	dptr
+      000011 F0               [24]  619 	movx	@dptr,a
+                                    620 ;	src/memory_flash_write_bytes_smart.c:58: if(num_bytes_to_write == 0)
+      000012 90r00r00         [24]  621 	mov	dptr,#_memory_flash_write_bytes_smart_PARM_2
+      000015 E0               [24]  622 	movx	a,@dptr
+      000016 FE               [12]  623 	mov	r6,a
+      000017 A3               [24]  624 	inc	dptr
+      000018 E0               [24]  625 	movx	a,@dptr
+      000019 FF               [12]  626 	mov	r7,a
+      00001A 4E               [12]  627 	orl	a,r6
+      00001B 70 04            [24]  628 	jnz	00143$
+                                    629 ;	src/memory_flash_write_bytes_smart.c:60: return MEMORY_FLASH_BAD_PARAMS;
+      00001D 75 82 01         [24]  630 	mov	dpl,#0x01
+      000020 22               [24]  631 	ret
+                                    632 ;	src/memory_flash_write_bytes_smart.c:64: for(i = 0; i < num_bytes_to_write; i++)
+      000021                        633 00143$:
+      000021 90r00r08         [24]  634 	mov	dptr,#_memory_flash_write_bytes_smart_start_address_1_14
+      000024 E0               [24]  635 	movx	a,@dptr
+      000025 FC               [12]  636 	mov	r4,a
+      000026 A3               [24]  637 	inc	dptr
+      000027 E0               [24]  638 	movx	a,@dptr
+      000028 FD               [12]  639 	mov	r5,a
+      000029 7A 00            [12]  640 	mov	r2,#0x00
+      00002B 7B 00            [12]  641 	mov	r3,#0x00
+      00002D                        642 00132$:
+      00002D C3               [12]  643 	clr	c
+      00002E EA               [12]  644 	mov	a,r2
+      00002F 9E               [12]  645 	subb	a,r6
+      000030 EB               [12]  646 	mov	a,r3
+      000031 9F               [12]  647 	subb	a,r7
+      000032 50 34            [24]  648 	jnc	00105$
+                                    649 ;	src/memory_flash_write_bytes_smart.c:66: if(!memory_flash_does_address_exist_in_flash(start_address + i))
+      000034 EA               [12]  650 	mov	a,r2
+      000035 2C               [12]  651 	add	a,r4
+      000036 F8               [12]  652 	mov	r0,a
+      000037 EB               [12]  653 	mov	a,r3
+      000038 3D               [12]  654 	addc	a,r5
+      000039 F9               [12]  655 	mov	r1,a
+      00003A 88 82            [24]  656 	mov	dpl,r0
+      00003C 89 83            [24]  657 	mov	dph,r1
+      00003E C0 07            [24]  658 	push	ar7
+      000040 C0 06            [24]  659 	push	ar6
+      000042 C0 05            [24]  660 	push	ar5
+      000044 C0 04            [24]  661 	push	ar4
+      000046 C0 03            [24]  662 	push	ar3
+      000048 C0 02            [24]  663 	push	ar2
+      00004A 12r00r00         [24]  664 	lcall	_memory_flash_does_address_exist_in_flash
+      00004D E5 82            [12]  665 	mov	a,dpl
+      00004F D0 02            [24]  666 	pop	ar2
+      000051 D0 03            [24]  667 	pop	ar3
+      000053 D0 04            [24]  668 	pop	ar4
+      000055 D0 05            [24]  669 	pop	ar5
+      000057 D0 06            [24]  670 	pop	ar6
+      000059 D0 07            [24]  671 	pop	ar7
+      00005B 70 04            [24]  672 	jnz	00133$
+                                    673 ;	src/memory_flash_write_bytes_smart.c:68: return MEMORY_FLASH_BAD_PARAMS;
+      00005D 75 82 01         [24]  674 	mov	dpl,#0x01
+      000060 22               [24]  675 	ret
+      000061                        676 00133$:
+                                    677 ;	src/memory_flash_write_bytes_smart.c:64: for(i = 0; i < num_bytes_to_write; i++)
+      000061 0A               [12]  678 	inc	r2
+      000062 BA 00 C8         [24]  679 	cjne	r2,#0x00,00132$
+      000065 0B               [12]  680 	inc	r3
+      000066 80 C5            [24]  681 	sjmp	00132$
+      000068                        682 00105$:
+                                    683 ;	src/memory_flash_write_bytes_smart.c:73: if(memory_flash_get_page_num_from_address(start_address, &cur_page_num) != MEMORY_FLASH_OK)
+      000068 90r00r08         [24]  684 	mov	dptr,#_memory_flash_write_bytes_smart_start_address_1_14
+      00006B E0               [24]  685 	movx	a,@dptr
+      00006C FC               [12]  686 	mov	r4,a
+      00006D A3               [24]  687 	inc	dptr
+      00006E E0               [24]  688 	movx	a,@dptr
+      00006F FD               [12]  689 	mov	r5,a
+      000070 90r00r00         [24]  690 	mov	dptr,#_memory_flash_get_page_num_from_address_PARM_2
+      000073 74r0A            [12]  691 	mov	a,#_memory_flash_write_bytes_smart_cur_page_num_1_15
+      000075 F0               [24]  692 	movx	@dptr,a
+      000076 74s00            [12]  693 	mov	a,#(_memory_flash_write_bytes_smart_cur_page_num_1_15 >> 8)
+      000078 A3               [24]  694 	inc	dptr
+      000079 F0               [24]  695 	movx	@dptr,a
+      00007A E4               [12]  696 	clr	a
+      00007B A3               [24]  697 	inc	dptr
+      00007C F0               [24]  698 	movx	@dptr,a
+      00007D 8C 82            [24]  699 	mov	dpl,r4
+      00007F 8D 83            [24]  700 	mov	dph,r5
+      000081 C0 07            [24]  701 	push	ar7
+      000083 C0 06            [24]  702 	push	ar6
+      000085 C0 05            [24]  703 	push	ar5
+      000087 C0 04            [24]  704 	push	ar4
+      000089 12r00r00         [24]  705 	lcall	_memory_flash_get_page_num_from_address
+      00008C E5 82            [12]  706 	mov	a,dpl
+      00008E D0 04            [24]  707 	pop	ar4
+      000090 D0 05            [24]  708 	pop	ar5
+      000092 D0 06            [24]  709 	pop	ar6
+      000094 D0 07            [24]  710 	pop	ar7
+      000096 60 04            [24]  711 	jz	00107$
+                                    712 ;	src/memory_flash_write_bytes_smart.c:75: return MEMORY_FLASH_BAD_PARAMS;
+      000098 75 82 01         [24]  713 	mov	dpl,#0x01
+      00009B 22               [24]  714 	ret
+      00009C                        715 00107$:
+                                    716 ;	src/memory_flash_write_bytes_smart.c:79: if(memory_flash_get_page_size(cur_page_num, &page_size) != MEMORY_FLASH_OK)
+      00009C 90r00r0A         [24]  717 	mov	dptr,#_memory_flash_write_bytes_smart_cur_page_num_1_15
+      00009F E0               [24]  718 	movx	a,@dptr
+      0000A0 FB               [12]  719 	mov	r3,a
+      0000A1 90r00r00         [24]  720 	mov	dptr,#_memory_flash_get_page_size_PARM_2
+      0000A4 74r0F            [12]  721 	mov	a,#_memory_flash_write_bytes_smart_page_size_1_15
+      0000A6 F0               [24]  722 	movx	@dptr,a
+      0000A7 74s00            [12]  723 	mov	a,#(_memory_flash_write_bytes_smart_page_size_1_15 >> 8)
+      0000A9 A3               [24]  724 	inc	dptr
+      0000AA F0               [24]  725 	movx	@dptr,a
+      0000AB E4               [12]  726 	clr	a
+      0000AC A3               [24]  727 	inc	dptr
+      0000AD F0               [24]  728 	movx	@dptr,a
+      0000AE 8B 82            [24]  729 	mov	dpl,r3
+      0000B0 C0 07            [24]  730 	push	ar7
+      0000B2 C0 06            [24]  731 	push	ar6
+      0000B4 C0 05            [24]  732 	push	ar5
+      0000B6 C0 04            [24]  733 	push	ar4
+      0000B8 12r00r00         [24]  734 	lcall	_memory_flash_get_page_size
+      0000BB E5 82            [12]  735 	mov	a,dpl
+      0000BD D0 04            [24]  736 	pop	ar4
+      0000BF D0 05            [24]  737 	pop	ar5
+      0000C1 D0 06            [24]  738 	pop	ar6
+      0000C3 D0 07            [24]  739 	pop	ar7
+      0000C5 60 04            [24]  740 	jz	00109$
+                                    741 ;	src/memory_flash_write_bytes_smart.c:81: return MEMORY_FLASH_BAD_PARAMS;
+      0000C7 75 82 01         [24]  742 	mov	dpl,#0x01
+      0000CA 22               [24]  743 	ret
+      0000CB                        744 00109$:
+                                    745 ;	src/memory_flash_write_bytes_smart.c:85: if(memory_flash_get_page_start_address(cur_page_num, &page_start_address) != MEMORY_FLASH_OK)
+      0000CB 90r00r0A         [24]  746 	mov	dptr,#_memory_flash_write_bytes_smart_cur_page_num_1_15
+      0000CE E0               [24]  747 	movx	a,@dptr
+      0000CF FB               [12]  748 	mov	r3,a
+      0000D0 90r00r00         [24]  749 	mov	dptr,#_memory_flash_get_page_start_address_PARM_2
+      0000D3 74r11            [12]  750 	mov	a,#_memory_flash_write_bytes_smart_page_start_address_1_15
+      0000D5 F0               [24]  751 	movx	@dptr,a
+      0000D6 74s00            [12]  752 	mov	a,#(_memory_flash_write_bytes_smart_page_start_address_1_15 >> 8)
+      0000D8 A3               [24]  753 	inc	dptr
+      0000D9 F0               [24]  754 	movx	@dptr,a
+      0000DA E4               [12]  755 	clr	a
+      0000DB A3               [24]  756 	inc	dptr
+      0000DC F0               [24]  757 	movx	@dptr,a
+      0000DD 8B 82            [24]  758 	mov	dpl,r3
+      0000DF C0 07            [24]  759 	push	ar7
+      0000E1 C0 06            [24]  760 	push	ar6
+      0000E3 C0 05            [24]  761 	push	ar5
+      0000E5 C0 04            [24]  762 	push	ar4
+      0000E7 12r00r00         [24]  763 	lcall	_memory_flash_get_page_start_address
+      0000EA E5 82            [12]  764 	mov	a,dpl
+      0000EC D0 04            [24]  765 	pop	ar4
+      0000EE D0 05            [24]  766 	pop	ar5
+      0000F0 D0 06            [24]  767 	pop	ar6
+      0000F2 D0 07            [24]  768 	pop	ar7
+      0000F4 60 04            [24]  769 	jz	00111$
+                                    770 ;	src/memory_flash_write_bytes_smart.c:87: return MEMORY_FLASH_BAD_PARAMS;
+      0000F6 75 82 01         [24]  771 	mov	dpl,#0x01
+      0000F9 22               [24]  772 	ret
+      0000FA                        773 00111$:
+                                    774 ;	src/memory_flash_write_bytes_smart.c:90: page_start_offset = start_address - page_start_address;
+      0000FA 90r00r11         [24]  775 	mov	dptr,#_memory_flash_write_bytes_smart_page_start_address_1_15
+      0000FD E0               [24]  776 	movx	a,@dptr
+      0000FE FA               [12]  777 	mov	r2,a
+      0000FF A3               [24]  778 	inc	dptr
+      000100 E0               [24]  779 	movx	a,@dptr
+      000101 FB               [12]  780 	mov	r3,a
+      000102 90r00r0B         [24]  781 	mov	dptr,#_memory_flash_write_bytes_smart_page_start_offset_1_15
+      000105 EC               [12]  782 	mov	a,r4
+      000106 C3               [12]  783 	clr	c
+      000107 9A               [12]  784 	subb	a,r2
+      000108 F0               [24]  785 	movx	@dptr,a
+      000109 ED               [12]  786 	mov	a,r5
+      00010A 9B               [12]  787 	subb	a,r3
+      00010B A3               [24]  788 	inc	dptr
+      00010C F0               [24]  789 	movx	@dptr,a
+                                    790 ;	src/memory_flash_write_bytes_smart.c:93: while(bytes_written < num_bytes_to_write)
+      00010D 90r00r05         [24]  791 	mov	dptr,#_memory_flash_write_bytes_smart_PARM_4
+      000110 E0               [24]  792 	movx	a,@dptr
+      000111 FB               [12]  793 	mov	r3,a
+      000112 A3               [24]  794 	inc	dptr
+      000113 E0               [24]  795 	movx	a,@dptr
+      000114 FC               [12]  796 	mov	r4,a
+      000115 A3               [24]  797 	inc	dptr
+      000116 E0               [24]  798 	movx	a,@dptr
+      000117 FD               [12]  799 	mov	r5,a
+      000118 90r00r02         [24]  800 	mov	dptr,#_memory_flash_write_bytes_smart_PARM_3
+      00011B E0               [24]  801 	movx	a,@dptr
+      00011C F5*05            [12]  802 	mov	_memory_flash_write_bytes_smart_sloc3_1_0,a
+      00011E A3               [24]  803 	inc	dptr
+      00011F E0               [24]  804 	movx	a,@dptr
+      000120 F5*06            [12]  805 	mov	(_memory_flash_write_bytes_smart_sloc3_1_0 + 1),a
+      000122 A3               [24]  806 	inc	dptr
+      000123 E0               [24]  807 	movx	a,@dptr
+      000124 F5*07            [12]  808 	mov	(_memory_flash_write_bytes_smart_sloc3_1_0 + 2),a
+      000126 90r00r0A         [24]  809 	mov	dptr,#_memory_flash_write_bytes_smart_cur_page_num_1_15
+      000129 E0               [24]  810 	movx	a,@dptr
+      00012A F5*00            [12]  811 	mov	_memory_flash_write_bytes_smart_sloc0_1_0,a
+      00012C                        812 00128$:
+      00012C 90r00r0D         [24]  813 	mov	dptr,#_memory_flash_write_bytes_smart_bytes_written_1_15
+      00012F E0               [24]  814 	movx	a,@dptr
+      000130 F5*01            [12]  815 	mov	_memory_flash_write_bytes_smart_sloc1_1_0,a
+      000132 A3               [24]  816 	inc	dptr
+      000133 E0               [24]  817 	movx	a,@dptr
+      000134 F5*02            [12]  818 	mov	(_memory_flash_write_bytes_smart_sloc1_1_0 + 1),a
+      000136 C3               [12]  819 	clr	c
+      000137 E5*01            [12]  820 	mov	a,_memory_flash_write_bytes_smart_sloc1_1_0
+      000139 9E               [12]  821 	subb	a,r6
+      00013A E5*02            [12]  822 	mov	a,(_memory_flash_write_bytes_smart_sloc1_1_0 + 1)
+      00013C 9F               [12]  823 	subb	a,r7
+      00013D 40 03            [24]  824 	jc	00205$
+      00013F 02r03r08         [24]  825 	ljmp	00130$
+      000142                        826 00205$:
+                                    827 ;	src/memory_flash_write_bytes_smart.c:96: erase_cur_page = false;
+      000142 90r00r13         [24]  828 	mov	dptr,#_memory_flash_write_bytes_smart_erase_cur_page_1_15
+      000145 E4               [12]  829 	clr	a
+      000146 F0               [24]  830 	movx	@dptr,a
+                                    831 ;	src/memory_flash_write_bytes_smart.c:97: write_cur_page = false;
+      000147 90r00r14         [24]  832 	mov	dptr,#_memory_flash_write_bytes_smart_write_cur_page_1_15
+      00014A F0               [24]  833 	movx	@dptr,a
+                                    834 ;	src/memory_flash_write_bytes_smart.c:100: if(memory_flash_copy_page_to_ram(cur_page_num, page_buffer) != MEMORY_FLASH_OK)
+      00014B 90r00r00         [24]  835 	mov	dptr,#_memory_flash_copy_page_to_ram_PARM_2
+      00014E EB               [12]  836 	mov	a,r3
+      00014F F0               [24]  837 	movx	@dptr,a
+      000150 EC               [12]  838 	mov	a,r4
+      000151 A3               [24]  839 	inc	dptr
+      000152 F0               [24]  840 	movx	@dptr,a
+      000153 ED               [12]  841 	mov	a,r5
+      000154 A3               [24]  842 	inc	dptr
+      000155 F0               [24]  843 	movx	@dptr,a
+      000156 85*00 82         [24]  844 	mov	dpl,_memory_flash_write_bytes_smart_sloc0_1_0
+      000159 C0 07            [24]  845 	push	ar7
+      00015B C0 06            [24]  846 	push	ar6
+      00015D C0 05            [24]  847 	push	ar5
+      00015F C0 04            [24]  848 	push	ar4
+      000161 C0 03            [24]  849 	push	ar3
+      000163 12r00r00         [24]  850 	lcall	_memory_flash_copy_page_to_ram
+      000166 E5 82            [12]  851 	mov	a,dpl
+      000168 D0 03            [24]  852 	pop	ar3
+      00016A D0 04            [24]  853 	pop	ar4
+      00016C D0 05            [24]  854 	pop	ar5
+      00016E D0 06            [24]  855 	pop	ar6
+      000170 D0 07            [24]  856 	pop	ar7
+      000172 60 04            [24]  857 	jz	00113$
+                                    858 ;	src/memory_flash_write_bytes_smart.c:102: return MEMORY_FLASH_BAD_PARAMS;
+      000174 75 82 01         [24]  859 	mov	dpl,#0x01
+      000177 22               [24]  860 	ret
+      000178                        861 00113$:
+                                    862 ;	src/memory_flash_write_bytes_smart.c:106: for(i = page_start_offset; (i < page_size) && (bytes_written < num_bytes_to_write); i++, bytes_written++)
+      000178 90r00r0B         [24]  863 	mov	dptr,#_memory_flash_write_bytes_smart_page_start_offset_1_15
+      00017B E0               [24]  864 	movx	a,@dptr
+      00017C F5*03            [12]  865 	mov	_memory_flash_write_bytes_smart_sloc2_1_0,a
+      00017E A3               [24]  866 	inc	dptr
+      00017F E0               [24]  867 	movx	a,@dptr
+      000180 F5*04            [12]  868 	mov	(_memory_flash_write_bytes_smart_sloc2_1_0 + 1),a
+      000182                        869 00136$:
+      000182 90r00r0F         [24]  870 	mov	dptr,#_memory_flash_write_bytes_smart_page_size_1_15
+      000185 E0               [24]  871 	movx	a,@dptr
+      000186 F9               [12]  872 	mov	r1,a
+      000187 A3               [24]  873 	inc	dptr
+      000188 E0               [24]  874 	movx	a,@dptr
+      000189 FA               [12]  875 	mov	r2,a
+      00018A C3               [12]  876 	clr	c
+      00018B E5*03            [12]  877 	mov	a,_memory_flash_write_bytes_smart_sloc2_1_0
+      00018D 99               [12]  878 	subb	a,r1
+      00018E E5*04            [12]  879 	mov	a,(_memory_flash_write_bytes_smart_sloc2_1_0 + 1)
+      000190 9A               [12]  880 	subb	a,r2
+      000191 40 03            [24]  881 	jc	00207$
+      000193 02r02r61         [24]  882 	ljmp	00159$
+      000196                        883 00207$:
+      000196 C3               [12]  884 	clr	c
+      000197 E5*01            [12]  885 	mov	a,_memory_flash_write_bytes_smart_sloc1_1_0
+      000199 9E               [12]  886 	subb	a,r6
+      00019A E5*02            [12]  887 	mov	a,(_memory_flash_write_bytes_smart_sloc1_1_0 + 1)
+      00019C 9F               [12]  888 	subb	a,r7
+      00019D 40 03            [24]  889 	jc	00208$
+      00019F 02r02r61         [24]  890 	ljmp	00159$
+      0001A2                        891 00208$:
+                                    892 ;	src/memory_flash_write_bytes_smart.c:109: if(page_buffer[i] != data_array[bytes_written])
+      0001A2 C0 06            [24]  893 	push	ar6
+      0001A4 C0 07            [24]  894 	push	ar7
+      0001A6 E5*03            [12]  895 	mov	a,_memory_flash_write_bytes_smart_sloc2_1_0
+      0001A8 2B               [12]  896 	add	a,r3
+      0001A9 FA               [12]  897 	mov	r2,a
+      0001AA E5*04            [12]  898 	mov	a,(_memory_flash_write_bytes_smart_sloc2_1_0 + 1)
+      0001AC 3C               [12]  899 	addc	a,r4
+      0001AD FE               [12]  900 	mov	r6,a
+      0001AE 8D 07            [24]  901 	mov	ar7,r5
+      0001B0 8A 82            [24]  902 	mov	dpl,r2
+      0001B2 8E 83            [24]  903 	mov	dph,r6
+      0001B4 8F F0            [24]  904 	mov	b,r7
+      0001B6 12r00r00         [24]  905 	lcall	__gptrget
+      0001B9 F5*08            [12]  906 	mov	_memory_flash_write_bytes_smart_sloc4_1_0,a
+      0001BB E5*01            [12]  907 	mov	a,_memory_flash_write_bytes_smart_sloc1_1_0
+      0001BD 25*05            [12]  908 	add	a,_memory_flash_write_bytes_smart_sloc3_1_0
+      0001BF FA               [12]  909 	mov	r2,a
+      0001C0 E5*02            [12]  910 	mov	a,(_memory_flash_write_bytes_smart_sloc1_1_0 + 1)
+      0001C2 35*06            [12]  911 	addc	a,(_memory_flash_write_bytes_smart_sloc3_1_0 + 1)
+      0001C4 FE               [12]  912 	mov	r6,a
+      0001C5 AF*07            [24]  913 	mov	r7,(_memory_flash_write_bytes_smart_sloc3_1_0 + 2)
+      0001C7 8A 82            [24]  914 	mov	dpl,r2
+      0001C9 8E 83            [24]  915 	mov	dph,r6
+      0001CB 8F F0            [24]  916 	mov	b,r7
+      0001CD 12r00r00         [24]  917 	lcall	__gptrget
+      0001D0 F5*09            [12]  918 	mov	_memory_flash_write_bytes_smart_sloc5_1_0,a
+      0001D2 B5*08 06         [24]  919 	cjne	a,_memory_flash_write_bytes_smart_sloc4_1_0,00209$
+      0001D5 D0 07            [24]  920 	pop	ar7
+      0001D7 D0 06            [24]  921 	pop	ar6
+      0001D9 80 3D            [24]  922 	sjmp	00117$
+      0001DB                        923 00209$:
+      0001DB D0 07            [24]  924 	pop	ar7
+      0001DD D0 06            [24]  925 	pop	ar6
+                                    926 ;	src/memory_flash_write_bytes_smart.c:114: write_cur_page = true;
+      0001DF 90r00r14         [24]  927 	mov	dptr,#_memory_flash_write_bytes_smart_write_cur_page_1_15
+      0001E2 74 01            [12]  928 	mov	a,#0x01
+      0001E4 F0               [24]  929 	movx	@dptr,a
+                                    930 ;	src/memory_flash_write_bytes_smart.c:118: if(!erase_cur_page)
+      0001E5 90r00r13         [24]  931 	mov	dptr,#_memory_flash_write_bytes_smart_erase_cur_page_1_15
+      0001E8 E0               [24]  932 	movx	a,@dptr
+      0001E9 FA               [12]  933 	mov	r2,a
+      0001EA 70 2C            [24]  934 	jnz	00117$
+                                    935 ;	src/memory_flash_write_bytes_smart.c:120: erase_cur_page = !memory_flash_can_byte_be_written_without_page_erase(page_buffer[i], data_array[bytes_written]);
+      0001EC 90r00r00         [24]  936 	mov	dptr,#_memory_flash_can_byte_be_written_without_page_erase_PARM_2
+      0001EF E5*09            [12]  937 	mov	a,_memory_flash_write_bytes_smart_sloc5_1_0
+      0001F1 F0               [24]  938 	movx	@dptr,a
+      0001F2 85*08 82         [24]  939 	mov	dpl,_memory_flash_write_bytes_smart_sloc4_1_0
+      0001F5 C0 07            [24]  940 	push	ar7
+      0001F7 C0 06            [24]  941 	push	ar6
+      0001F9 C0 05            [24]  942 	push	ar5
+      0001FB C0 04            [24]  943 	push	ar4
+      0001FD C0 03            [24]  944 	push	ar3
+      0001FF 12r00r00         [24]  945 	lcall	_memory_flash_can_byte_be_written_without_page_erase
+      000202 AA 82            [24]  946 	mov	r2,dpl
+      000204 D0 03            [24]  947 	pop	ar3
+      000206 D0 04            [24]  948 	pop	ar4
+      000208 D0 05            [24]  949 	pop	ar5
+      00020A D0 06            [24]  950 	pop	ar6
+      00020C D0 07            [24]  951 	pop	ar7
+      00020E 90r00r13         [24]  952 	mov	dptr,#_memory_flash_write_bytes_smart_erase_cur_page_1_15
+      000211 EA               [12]  953 	mov	a,r2
+      000212 B4 01 00         [24]  954 	cjne	a,#0x01,00211$
+      000215                        955 00211$:
+      000215 E4               [12]  956 	clr	a
+      000216 33               [12]  957 	rlc	a
+      000217 F0               [24]  958 	movx	@dptr,a
+      000218                        959 00117$:
+                                    960 ;	src/memory_flash_write_bytes_smart.c:125: page_buffer[i] = data_array[bytes_written];
+      000218 C0 06            [24]  961 	push	ar6
+      00021A C0 07            [24]  962 	push	ar7
+      00021C E5*03            [12]  963 	mov	a,_memory_flash_write_bytes_smart_sloc2_1_0
+      00021E 2B               [12]  964 	add	a,r3
+      00021F F5*0A            [12]  965 	mov	_memory_flash_write_bytes_smart_sloc6_1_0,a
+      000221 E5*04            [12]  966 	mov	a,(_memory_flash_write_bytes_smart_sloc2_1_0 + 1)
+      000223 3C               [12]  967 	addc	a,r4
+      000224 F5*0B            [12]  968 	mov	(_memory_flash_write_bytes_smart_sloc6_1_0 + 1),a
+      000226 8D*0C            [24]  969 	mov	(_memory_flash_write_bytes_smart_sloc6_1_0 + 2),r5
+      000228 E5*01            [12]  970 	mov	a,_memory_flash_write_bytes_smart_sloc1_1_0
+      00022A 25*05            [12]  971 	add	a,_memory_flash_write_bytes_smart_sloc3_1_0
+      00022C FA               [12]  972 	mov	r2,a
+      00022D E5*02            [12]  973 	mov	a,(_memory_flash_write_bytes_smart_sloc1_1_0 + 1)
+      00022F 35*06            [12]  974 	addc	a,(_memory_flash_write_bytes_smart_sloc3_1_0 + 1)
+      000231 FE               [12]  975 	mov	r6,a
+      000232 AF*07            [24]  976 	mov	r7,(_memory_flash_write_bytes_smart_sloc3_1_0 + 2)
+      000234 8A 82            [24]  977 	mov	dpl,r2
+      000236 8E 83            [24]  978 	mov	dph,r6
+      000238 8F F0            [24]  979 	mov	b,r7
+      00023A 12r00r00         [24]  980 	lcall	__gptrget
+      00023D FA               [12]  981 	mov	r2,a
+      00023E 85*0A 82         [24]  982 	mov	dpl,_memory_flash_write_bytes_smart_sloc6_1_0
+      000241 85*0B 83         [24]  983 	mov	dph,(_memory_flash_write_bytes_smart_sloc6_1_0 + 1)
+      000244 85*0C F0         [24]  984 	mov	b,(_memory_flash_write_bytes_smart_sloc6_1_0 + 2)
+      000247 12r00r00         [24]  985 	lcall	__gptrput
+                                    986 ;	src/memory_flash_write_bytes_smart.c:106: for(i = page_start_offset; (i < page_size) && (bytes_written < num_bytes_to_write); i++, bytes_written++)
+      00024A 05*03            [12]  987 	inc	_memory_flash_write_bytes_smart_sloc2_1_0
+      00024C E4               [12]  988 	clr	a
+      00024D B5*03 02         [24]  989 	cjne	a,_memory_flash_write_bytes_smart_sloc2_1_0,00212$
+      000250 05*04            [12]  990 	inc	(_memory_flash_write_bytes_smart_sloc2_1_0 + 1)
+      000252                        991 00212$:
+      000252 05*01            [12]  992 	inc	_memory_flash_write_bytes_smart_sloc1_1_0
+      000254 E4               [12]  993 	clr	a
+      000255 B5*01 02         [24]  994 	cjne	a,_memory_flash_write_bytes_smart_sloc1_1_0,00213$
+      000258 05*02            [12]  995 	inc	(_memory_flash_write_bytes_smart_sloc1_1_0 + 1)
+      00025A                        996 00213$:
+      00025A D0 07            [24]  997 	pop	ar7
+      00025C D0 06            [24]  998 	pop	ar6
+      00025E 02r01r82         [24]  999 	ljmp	00136$
+      000261                       1000 00159$:
+      000261 90r00r0D         [24] 1001 	mov	dptr,#_memory_flash_write_bytes_smart_bytes_written_1_15
+      000264 E5*01            [12] 1002 	mov	a,_memory_flash_write_bytes_smart_sloc1_1_0
+      000266 F0               [24] 1003 	movx	@dptr,a
+      000267 E5*02            [12] 1004 	mov	a,(_memory_flash_write_bytes_smart_sloc1_1_0 + 1)
+      000269 A3               [24] 1005 	inc	dptr
+      00026A F0               [24] 1006 	movx	@dptr,a
+                                   1007 ;	src/memory_flash_write_bytes_smart.c:129: if(erase_cur_page)
+      00026B 90r00r13         [24] 1008 	mov	dptr,#_memory_flash_write_bytes_smart_erase_cur_page_1_15
+      00026E E0               [24] 1009 	movx	a,@dptr
+      00026F FA               [12] 1010 	mov	r2,a
+      000270 60 26            [24] 1011 	jz	00122$
+                                   1012 ;	src/memory_flash_write_bytes_smart.c:131: if(memory_flash_erase_page(cur_page_num) != MEMORY_FLASH_OK)
+      000272 85*00 82         [24] 1013 	mov	dpl,_memory_flash_write_bytes_smart_sloc0_1_0
+      000275 C0 07            [24] 1014 	push	ar7
+      000277 C0 06            [24] 1015 	push	ar6
+      000279 C0 05            [24] 1016 	push	ar5
+      00027B C0 04            [24] 1017 	push	ar4
+      00027D C0 03            [24] 1018 	push	ar3
+      00027F C0 02            [24] 1019 	push	ar2
+      000281 12r00r00         [24] 1020 	lcall	_memory_flash_erase_page
+      000284 E5 82            [12] 1021 	mov	a,dpl
+      000286 D0 02            [24] 1022 	pop	ar2
+      000288 D0 03            [24] 1023 	pop	ar3
+      00028A D0 04            [24] 1024 	pop	ar4
+      00028C D0 05            [24] 1025 	pop	ar5
+      00028E D0 06            [24] 1026 	pop	ar6
+      000290 D0 07            [24] 1027 	pop	ar7
+      000292 60 04            [24] 1028 	jz	00122$
+                                   1029 ;	src/memory_flash_write_bytes_smart.c:133: return MEMORY_FLASH_BAD_PARAMS;
+      000294 75 82 01         [24] 1030 	mov	dpl,#0x01
+      000297 22               [24] 1031 	ret
+      000298                       1032 00122$:
+                                   1033 ;	src/memory_flash_write_bytes_smart.c:138: if(write_cur_page || erase_cur_page)
+      000298 90r00r14         [24] 1034 	mov	dptr,#_memory_flash_write_bytes_smart_write_cur_page_1_15
+      00029B E0               [24] 1035 	movx	a,@dptr
+      00029C F9               [12] 1036 	mov	r1,a
+      00029D 70 03            [24] 1037 	jnz	00125$
+      00029F EA               [12] 1038 	mov	a,r2
+      0002A0 60 2D            [24] 1039 	jz	00126$
+      0002A2                       1040 00125$:
+                                   1041 ;	src/memory_flash_write_bytes_smart.c:140: if(memory_flash_copy_ram_to_page(cur_page_num, page_buffer) != MEMORY_FLASH_OK)
+      0002A2 90r00r00         [24] 1042 	mov	dptr,#_memory_flash_copy_ram_to_page_PARM_2
+      0002A5 EB               [12] 1043 	mov	a,r3
+      0002A6 F0               [24] 1044 	movx	@dptr,a
+      0002A7 EC               [12] 1045 	mov	a,r4
+      0002A8 A3               [24] 1046 	inc	dptr
+      0002A9 F0               [24] 1047 	movx	@dptr,a
+      0002AA ED               [12] 1048 	mov	a,r5
+      0002AB A3               [24] 1049 	inc	dptr
+      0002AC F0               [24] 1050 	movx	@dptr,a
+      0002AD 85*00 82         [24] 1051 	mov	dpl,_memory_flash_write_bytes_smart_sloc0_1_0
+      0002B0 C0 07            [24] 1052 	push	ar7
+      0002B2 C0 06            [24] 1053 	push	ar6
+      0002B4 C0 05            [24] 1054 	push	ar5
+      0002B6 C0 04            [24] 1055 	push	ar4
+      0002B8 C0 03            [24] 1056 	push	ar3
+      0002BA 12r00r00         [24] 1057 	lcall	_memory_flash_copy_ram_to_page
+      0002BD E5 82            [12] 1058 	mov	a,dpl
+      0002BF D0 03            [24] 1059 	pop	ar3
+      0002C1 D0 04            [24] 1060 	pop	ar4
+      0002C3 D0 05            [24] 1061 	pop	ar5
+      0002C5 D0 06            [24] 1062 	pop	ar6
+      0002C7 D0 07            [24] 1063 	pop	ar7
+      0002C9 60 04            [24] 1064 	jz	00126$
+                                   1065 ;	src/memory_flash_write_bytes_smart.c:142: return MEMORY_FLASH_BAD_PARAMS;
+      0002CB 75 82 01         [24] 1066 	mov	dpl,#0x01
+      0002CE 22               [24] 1067 	ret
+      0002CF                       1068 00126$:
+                                   1069 ;	src/memory_flash_write_bytes_smart.c:148: page_start_offset = 0;
+      0002CF 90r00r0B         [24] 1070 	mov	dptr,#_memory_flash_write_bytes_smart_page_start_offset_1_15
+      0002D2 E4               [12] 1071 	clr	a
+      0002D3 F0               [24] 1072 	movx	@dptr,a
+      0002D4 A3               [24] 1073 	inc	dptr
+      0002D5 F0               [24] 1074 	movx	@dptr,a
+                                   1075 ;	src/memory_flash_write_bytes_smart.c:150: cur_page_num++;
+      0002D6 05*00            [12] 1076 	inc	_memory_flash_write_bytes_smart_sloc0_1_0
+      0002D8 90r00r0A         [24] 1077 	mov	dptr,#_memory_flash_write_bytes_smart_cur_page_num_1_15
+      0002DB E5*00            [12] 1078 	mov	a,_memory_flash_write_bytes_smart_sloc0_1_0
+      0002DD F0               [24] 1079 	movx	@dptr,a
+                                   1080 ;	src/memory_flash_write_bytes_smart.c:152: memory_flash_get_page_size(cur_page_num, &page_size);
+      0002DE 90r00r00         [24] 1081 	mov	dptr,#_memory_flash_get_page_size_PARM_2
+      0002E1 74r0F            [12] 1082 	mov	a,#_memory_flash_write_bytes_smart_page_size_1_15
+      0002E3 F0               [24] 1083 	movx	@dptr,a
+      0002E4 74s00            [12] 1084 	mov	a,#(_memory_flash_write_bytes_smart_page_size_1_15 >> 8)
+      0002E6 A3               [24] 1085 	inc	dptr
+      0002E7 F0               [24] 1086 	movx	@dptr,a
+      0002E8 E4               [12] 1087 	clr	a
+      0002E9 A3               [24] 1088 	inc	dptr
+      0002EA F0               [24] 1089 	movx	@dptr,a
+      0002EB 85*00 82         [24] 1090 	mov	dpl,_memory_flash_write_bytes_smart_sloc0_1_0
+      0002EE C0 07            [24] 1091 	push	ar7
+      0002F0 C0 06            [24] 1092 	push	ar6
+      0002F2 C0 05            [24] 1093 	push	ar5
+      0002F4 C0 04            [24] 1094 	push	ar4
+      0002F6 C0 03            [24] 1095 	push	ar3
+      0002F8 12r00r00         [24] 1096 	lcall	_memory_flash_get_page_size
+      0002FB D0 03            [24] 1097 	pop	ar3
+      0002FD D0 04            [24] 1098 	pop	ar4
+      0002FF D0 05            [24] 1099 	pop	ar5
+      000301 D0 06            [24] 1100 	pop	ar6
+      000303 D0 07            [24] 1101 	pop	ar7
+      000305 02r01r2C         [24] 1102 	ljmp	00128$
+      000308                       1103 00130$:
+                                   1104 ;	src/memory_flash_write_bytes_smart.c:155: return MEMORY_FLASH_OK;
+      000308 75 82 00         [24] 1105 	mov	dpl,#0x00
+      00030B 22               [24] 1106 	ret
+                                   1107 	.area CSEG    (CODE)
+                                   1108 	.area CONST   (CODE)
+                                   1109 	.area XINIT   (CODE)
+                                   1110 	.area CABS    (ABS,CODE)

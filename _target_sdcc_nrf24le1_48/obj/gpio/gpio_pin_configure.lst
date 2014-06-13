@@ -1,0 +1,928 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
+                                      4 ; This file was generated Fri Jun 13 08:34:56 2014
+                                      5 ;--------------------------------------------------------
+                                      6 	.module gpio_pin_configure
+                                      7 	.optsdcc -mmcs51 --model-large
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _FSR_SB_ENDBG
+                                     13 	.globl _FSR_SB_STP
+                                     14 	.globl _FSR_SB_WEN
+                                     15 	.globl _FSR_SB_RDYN
+                                     16 	.globl _FSR_SB_INFEN
+                                     17 	.globl _FSR_SB_RDISMB
+                                     18 	.globl _RFCON_SB_RFCKEN
+                                     19 	.globl _RFCON_SB_RFCSN
+                                     20 	.globl _RFCON_SB_RFCE
+                                     21 	.globl _ADCON_SB_BD
+                                     22 	.globl _PSW_SB_P
+                                     23 	.globl _PSW_SB_F1
+                                     24 	.globl _PSW_SB_OV
+                                     25 	.globl _PSW_SB_RS0
+                                     26 	.globl _PSW_SB_RS1
+                                     27 	.globl _PSW_SB_F0
+                                     28 	.globl _PSW_SB_AC
+                                     29 	.globl _PSW_SB_CY
+                                     30 	.globl _T2CON_SB_T2PS
+                                     31 	.globl _T2CON_SB_I3FR
+                                     32 	.globl _T2CON_SB_I2FR
+                                     33 	.globl _T2CON_SB_T2R1
+                                     34 	.globl _T2CON_SB_T2R0
+                                     35 	.globl _T2CON_SB_T2CM
+                                     36 	.globl _T2CON_SB_T2I1
+                                     37 	.globl _T2CON_SB_T2I0
+                                     38 	.globl _IRCON_SB_EXF2
+                                     39 	.globl _IRCON_SB_TF2
+                                     40 	.globl _IRCON_SB_TICK
+                                     41 	.globl _IRCON_SB_MISCIRQ
+                                     42 	.globl _IRCON_SB_WUOPIRQ
+                                     43 	.globl _IRCON_SB_SPI_2WIRE
+                                     44 	.globl _IRCON_SB_RFIRQ
+                                     45 	.globl _IRCON_SB_RFRDY
+                                     46 	.globl _IEN1_SB_T2EXTRLD
+                                     47 	.globl _IEN1_SB_TICK
+                                     48 	.globl _IEN1_SB_MISCIRQ
+                                     49 	.globl _IEN1_SB_WUOPIRQ
+                                     50 	.globl _IEN1_SB_SPI_2WIRE
+                                     51 	.globl _IEN1_SB_RFIRQ
+                                     52 	.globl _IEN1_SB_RFRDY
+                                     53 	.globl _P3_SB_D7
+                                     54 	.globl _P3_SB_D6
+                                     55 	.globl _P3_SB_D5
+                                     56 	.globl _P3_SB_D4
+                                     57 	.globl _P3_SB_D3
+                                     58 	.globl _P3_SB_D2
+                                     59 	.globl _P3_SB_D1
+                                     60 	.globl _P3_SB_D0
+                                     61 	.globl _IEN0_SB_GLOBAL
+                                     62 	.globl _IEN0_SB_T2
+                                     63 	.globl _IEN0_SB_UART
+                                     64 	.globl _IEN0_SB_T1
+                                     65 	.globl _IEN0_SB_POFIRQ
+                                     66 	.globl _IEN0_SB_T0
+                                     67 	.globl _IEN0_SB_IFP
+                                     68 	.globl _P2_SB_D7
+                                     69 	.globl _P2_SB_D6
+                                     70 	.globl _P2_SB_D5
+                                     71 	.globl _P2_SB_D4
+                                     72 	.globl _P2_SB_D3
+                                     73 	.globl _P2_SB_D2
+                                     74 	.globl _P2_SB_D1
+                                     75 	.globl _P2_SB_D0
+                                     76 	.globl _S0CON_SB_SM0
+                                     77 	.globl _S0CON_SB_SM1
+                                     78 	.globl _S0CON_SB_SM20
+                                     79 	.globl _S0CON_SB_REN0
+                                     80 	.globl _S0CON_SB_TB80
+                                     81 	.globl _S0CON_SB_RB80
+                                     82 	.globl _S0CON_SB_TI0
+                                     83 	.globl _S0CON_SB_RI0
+                                     84 	.globl _P1_SB_D7
+                                     85 	.globl _P1_SB_D6
+                                     86 	.globl _P1_SB_D5
+                                     87 	.globl _P1_SB_D4
+                                     88 	.globl _P1_SB_D3
+                                     89 	.globl _P1_SB_D2
+                                     90 	.globl _P1_SB_D1
+                                     91 	.globl _P1_SB_D0
+                                     92 	.globl _TCON_SB_TF1
+                                     93 	.globl _TCON_SB_TR1
+                                     94 	.globl _TCON_SB_TF0
+                                     95 	.globl _TCON_SB_TR0
+                                     96 	.globl _TCON_SB_IE1
+                                     97 	.globl _TCON_SB_IT1
+                                     98 	.globl _TCON_SB_IE0
+                                     99 	.globl _TCON_SB_IT0
+                                    100 	.globl _P0_SB_D7
+                                    101 	.globl _P0_SB_D6
+                                    102 	.globl _P0_SB_D5
+                                    103 	.globl _P0_SB_D4
+                                    104 	.globl _P0_SB_D3
+                                    105 	.globl _P0_SB_D2
+                                    106 	.globl _P0_SB_D1
+                                    107 	.globl _P0_SB_D0
+                                    108 	.globl _ADCDAT
+                                    109 	.globl _S0REL
+                                    110 	.globl _T2
+                                    111 	.globl _T1
+                                    112 	.globl _T0
+                                    113 	.globl _CRC
+                                    114 	.globl _CC3
+                                    115 	.globl _CC2
+                                    116 	.globl _CC1
+                                    117 	.globl _SPIMDAT
+                                    118 	.globl _SPIMSTAT
+                                    119 	.globl _SPIMCON1
+                                    120 	.globl _SPIMCON0
+                                    121 	.globl _FCR
+                                    122 	.globl _FPCR
+                                    123 	.globl _FSR
+                                    124 	.globl _B
+                                    125 	.globl _ARCON
+                                    126 	.globl _MD5
+                                    127 	.globl _MD4
+                                    128 	.globl _MD3
+                                    129 	.globl _MD2
+                                    130 	.globl _MD1
+                                    131 	.globl _MD0
+                                    132 	.globl _RFCON
+                                    133 	.globl _SPIRDAT
+                                    134 	.globl _SPIRSTAT
+                                    135 	.globl _SPIRCON1
+                                    136 	.globl _SPIRCON0
+                                    137 	.globl _W2CON0
+                                    138 	.globl _W2CON1
+                                    139 	.globl _ACC
+                                    140 	.globl _CCPDATO
+                                    141 	.globl _CCPDATIB
+                                    142 	.globl _CCPDATIA
+                                    143 	.globl _POFCON
+                                    144 	.globl _COMPCON
+                                    145 	.globl _W2DAT
+                                    146 	.globl _W2SADR
+                                    147 	.globl _ADCON
+                                    148 	.globl _RNGDAT
+                                    149 	.globl _RNGCTL
+                                    150 	.globl _ADCDATL
+                                    151 	.globl _ADCDATH
+                                    152 	.globl _ADCCON1
+                                    153 	.globl _ADCCON2
+                                    154 	.globl _ADCCON3
+                                    155 	.globl _PSW
+                                    156 	.globl _WUOPC0
+                                    157 	.globl _WUOPC1
+                                    158 	.globl _TH2
+                                    159 	.globl _TL2
+                                    160 	.globl _CRCH
+                                    161 	.globl _CRCL
+                                    162 	.globl __XPAGE
+                                    163 	.globl _MPAGE
+                                    164 	.globl _T2CON
+                                    165 	.globl _CCH3
+                                    166 	.globl _CCL3
+                                    167 	.globl _CCH2
+                                    168 	.globl _CCL2
+                                    169 	.globl _CCH1
+                                    170 	.globl _CCL1
+                                    171 	.globl _CCEN
+                                    172 	.globl _IRCON
+                                    173 	.globl _SPISDAT
+                                    174 	.globl _SPISSTAT
+                                    175 	.globl _SPISCON1
+                                    176 	.globl _SPISCON0
+                                    177 	.globl _S0RELH
+                                    178 	.globl _IP1
+                                    179 	.globl _IEN1
+                                    180 	.globl _SPISRDSZ
+                                    181 	.globl _RTC2CPT00
+                                    182 	.globl _RTC2CMP1
+                                    183 	.globl _RTC2CMP0
+                                    184 	.globl _RTC2CON
+                                    185 	.globl _PWMCON
+                                    186 	.globl _RSTREAS
+                                    187 	.globl _P3
+                                    188 	.globl _WDSV
+                                    189 	.globl _OPMCON
+                                    190 	.globl _CLKLFCTRL
+                                    191 	.globl _RTC2CPT10
+                                    192 	.globl _RTC2CPT01
+                                    193 	.globl _S0RELL
+                                    194 	.globl _IP0
+                                    195 	.globl _IEN0
+                                    196 	.globl _MEMCON
+                                    197 	.globl _INTEXP
+                                    198 	.globl _WUCON
+                                    199 	.globl _PWRDWN
+                                    200 	.globl _CLKCTRL
+                                    201 	.globl _PWMDC1
+                                    202 	.globl _PWMDC0
+                                    203 	.globl _P2
+                                    204 	.globl _P1CON
+                                    205 	.globl _P0CON
+                                    206 	.globl _S0BUF
+                                    207 	.globl _S0CON
+                                    208 	.globl _P2CON
+                                    209 	.globl _P3DIR
+                                    210 	.globl _P2DIR
+                                    211 	.globl _P1DIR
+                                    212 	.globl _P0DIR
+                                    213 	.globl _DPS
+                                    214 	.globl _P1
+                                    215 	.globl _P3CON
+                                    216 	.globl _TH1
+                                    217 	.globl _TH0
+                                    218 	.globl _TL1
+                                    219 	.globl _TL0
+                                    220 	.globl _TMOD
+                                    221 	.globl _TCON
+                                    222 	.globl _PCON
+                                    223 	.globl _DPH1
+                                    224 	.globl _DPL1
+                                    225 	.globl _DPH
+                                    226 	.globl _DPL
+                                    227 	.globl _SP
+                                    228 	.globl _P0
+                                    229 	.globl _gpio_pin_configure_PARM_2
+                                    230 	.globl _gpio_pin_configure
+                                    231 ;--------------------------------------------------------
+                                    232 ; special function registers
+                                    233 ;--------------------------------------------------------
+                                    234 	.area RSEG    (ABS,DATA)
+      000000                        235 	.org 0x0000
+                           000080   236 _P0	=	0x0080
+                           000081   237 _SP	=	0x0081
+                           000082   238 _DPL	=	0x0082
+                           000083   239 _DPH	=	0x0083
+                           000084   240 _DPL1	=	0x0084
+                           000085   241 _DPH1	=	0x0085
+                           000087   242 _PCON	=	0x0087
+                           000088   243 _TCON	=	0x0088
+                           000089   244 _TMOD	=	0x0089
+                           00008A   245 _TL0	=	0x008a
+                           00008B   246 _TL1	=	0x008b
+                           00008C   247 _TH0	=	0x008c
+                           00008D   248 _TH1	=	0x008d
+                           00008F   249 _P3CON	=	0x008f
+                           000090   250 _P1	=	0x0090
+                           000092   251 _DPS	=	0x0092
+                           000093   252 _P0DIR	=	0x0093
+                           000094   253 _P1DIR	=	0x0094
+                           000095   254 _P2DIR	=	0x0095
+                           000096   255 _P3DIR	=	0x0096
+                           000097   256 _P2CON	=	0x0097
+                           000098   257 _S0CON	=	0x0098
+                           000099   258 _S0BUF	=	0x0099
+                           00009E   259 _P0CON	=	0x009e
+                           00009F   260 _P1CON	=	0x009f
+                           0000A0   261 _P2	=	0x00a0
+                           0000A1   262 _PWMDC0	=	0x00a1
+                           0000A2   263 _PWMDC1	=	0x00a2
+                           0000A3   264 _CLKCTRL	=	0x00a3
+                           0000A4   265 _PWRDWN	=	0x00a4
+                           0000A5   266 _WUCON	=	0x00a5
+                           0000A6   267 _INTEXP	=	0x00a6
+                           0000A7   268 _MEMCON	=	0x00a7
+                           0000A8   269 _IEN0	=	0x00a8
+                           0000A9   270 _IP0	=	0x00a9
+                           0000AA   271 _S0RELL	=	0x00aa
+                           0000AB   272 _RTC2CPT01	=	0x00ab
+                           0000AC   273 _RTC2CPT10	=	0x00ac
+                           0000AD   274 _CLKLFCTRL	=	0x00ad
+                           0000AE   275 _OPMCON	=	0x00ae
+                           0000AF   276 _WDSV	=	0x00af
+                           0000B0   277 _P3	=	0x00b0
+                           0000B1   278 _RSTREAS	=	0x00b1
+                           0000B2   279 _PWMCON	=	0x00b2
+                           0000B3   280 _RTC2CON	=	0x00b3
+                           0000B4   281 _RTC2CMP0	=	0x00b4
+                           0000B5   282 _RTC2CMP1	=	0x00b5
+                           0000B6   283 _RTC2CPT00	=	0x00b6
+                           0000B7   284 _SPISRDSZ	=	0x00b7
+                           0000B8   285 _IEN1	=	0x00b8
+                           0000B9   286 _IP1	=	0x00b9
+                           0000BA   287 _S0RELH	=	0x00ba
+                           0000BC   288 _SPISCON0	=	0x00bc
+                           0000BD   289 _SPISCON1	=	0x00bd
+                           0000BE   290 _SPISSTAT	=	0x00be
+                           0000BF   291 _SPISDAT	=	0x00bf
+                           0000C0   292 _IRCON	=	0x00c0
+                           0000C1   293 _CCEN	=	0x00c1
+                           0000C2   294 _CCL1	=	0x00c2
+                           0000C3   295 _CCH1	=	0x00c3
+                           0000C4   296 _CCL2	=	0x00c4
+                           0000C5   297 _CCH2	=	0x00c5
+                           0000C6   298 _CCL3	=	0x00c6
+                           0000C7   299 _CCH3	=	0x00c7
+                           0000C8   300 _T2CON	=	0x00c8
+                           0000C9   301 _MPAGE	=	0x00c9
+                           0000C9   302 __XPAGE	=	0x00c9
+                           0000CA   303 _CRCL	=	0x00ca
+                           0000CB   304 _CRCH	=	0x00cb
+                           0000CC   305 _TL2	=	0x00cc
+                           0000CD   306 _TH2	=	0x00cd
+                           0000CE   307 _WUOPC1	=	0x00ce
+                           0000CF   308 _WUOPC0	=	0x00cf
+                           0000D0   309 _PSW	=	0x00d0
+                           0000D1   310 _ADCCON3	=	0x00d1
+                           0000D2   311 _ADCCON2	=	0x00d2
+                           0000D3   312 _ADCCON1	=	0x00d3
+                           0000D4   313 _ADCDATH	=	0x00d4
+                           0000D5   314 _ADCDATL	=	0x00d5
+                           0000D6   315 _RNGCTL	=	0x00d6
+                           0000D7   316 _RNGDAT	=	0x00d7
+                           0000D8   317 _ADCON	=	0x00d8
+                           0000D9   318 _W2SADR	=	0x00d9
+                           0000DA   319 _W2DAT	=	0x00da
+                           0000DB   320 _COMPCON	=	0x00db
+                           0000DC   321 _POFCON	=	0x00dc
+                           0000DD   322 _CCPDATIA	=	0x00dd
+                           0000DE   323 _CCPDATIB	=	0x00de
+                           0000DF   324 _CCPDATO	=	0x00df
+                           0000E0   325 _ACC	=	0x00e0
+                           0000E1   326 _W2CON1	=	0x00e1
+                           0000E2   327 _W2CON0	=	0x00e2
+                           0000E4   328 _SPIRCON0	=	0x00e4
+                           0000E5   329 _SPIRCON1	=	0x00e5
+                           0000E6   330 _SPIRSTAT	=	0x00e6
+                           0000E7   331 _SPIRDAT	=	0x00e7
+                           0000E8   332 _RFCON	=	0x00e8
+                           0000E9   333 _MD0	=	0x00e9
+                           0000EA   334 _MD1	=	0x00ea
+                           0000EB   335 _MD2	=	0x00eb
+                           0000EC   336 _MD3	=	0x00ec
+                           0000ED   337 _MD4	=	0x00ed
+                           0000EE   338 _MD5	=	0x00ee
+                           0000EF   339 _ARCON	=	0x00ef
+                           0000F0   340 _B	=	0x00f0
+                           0000F8   341 _FSR	=	0x00f8
+                           0000F9   342 _FPCR	=	0x00f9
+                           0000FA   343 _FCR	=	0x00fa
+                           0000FC   344 _SPIMCON0	=	0x00fc
+                           0000FD   345 _SPIMCON1	=	0x00fd
+                           0000FE   346 _SPIMSTAT	=	0x00fe
+                           0000FF   347 _SPIMDAT	=	0x00ff
+                           00C3C2   348 _CC1	=	0xc3c2
+                           00C5C4   349 _CC2	=	0xc5c4
+                           00C7C6   350 _CC3	=	0xc7c6
+                           00CBCA   351 _CRC	=	0xcbca
+                           008C8A   352 _T0	=	0x8c8a
+                           008D8B   353 _T1	=	0x8d8b
+                           00CDCC   354 _T2	=	0xcdcc
+                           00BAAA   355 _S0REL	=	0xbaaa
+                           00D4D5   356 _ADCDAT	=	0xd4d5
+                                    357 ;--------------------------------------------------------
+                                    358 ; special function bits
+                                    359 ;--------------------------------------------------------
+                                    360 	.area RSEG    (ABS,DATA)
+      000000                        361 	.org 0x0000
+                           000080   362 _P0_SB_D0	=	0x0080
+                           000081   363 _P0_SB_D1	=	0x0081
+                           000082   364 _P0_SB_D2	=	0x0082
+                           000083   365 _P0_SB_D3	=	0x0083
+                           000084   366 _P0_SB_D4	=	0x0084
+                           000085   367 _P0_SB_D5	=	0x0085
+                           000086   368 _P0_SB_D6	=	0x0086
+                           000087   369 _P0_SB_D7	=	0x0087
+                           000088   370 _TCON_SB_IT0	=	0x0088
+                           000089   371 _TCON_SB_IE0	=	0x0089
+                           00008A   372 _TCON_SB_IT1	=	0x008a
+                           00008B   373 _TCON_SB_IE1	=	0x008b
+                           00008C   374 _TCON_SB_TR0	=	0x008c
+                           00008D   375 _TCON_SB_TF0	=	0x008d
+                           00008E   376 _TCON_SB_TR1	=	0x008e
+                           00008F   377 _TCON_SB_TF1	=	0x008f
+                           000090   378 _P1_SB_D0	=	0x0090
+                           000091   379 _P1_SB_D1	=	0x0091
+                           000092   380 _P1_SB_D2	=	0x0092
+                           000093   381 _P1_SB_D3	=	0x0093
+                           000094   382 _P1_SB_D4	=	0x0094
+                           000095   383 _P1_SB_D5	=	0x0095
+                           000096   384 _P1_SB_D6	=	0x0096
+                           000097   385 _P1_SB_D7	=	0x0097
+                           000098   386 _S0CON_SB_RI0	=	0x0098
+                           000099   387 _S0CON_SB_TI0	=	0x0099
+                           00009A   388 _S0CON_SB_RB80	=	0x009a
+                           00009B   389 _S0CON_SB_TB80	=	0x009b
+                           00009C   390 _S0CON_SB_REN0	=	0x009c
+                           00009D   391 _S0CON_SB_SM20	=	0x009d
+                           00009E   392 _S0CON_SB_SM1	=	0x009e
+                           00009F   393 _S0CON_SB_SM0	=	0x009f
+                           0000A0   394 _P2_SB_D0	=	0x00a0
+                           0000A1   395 _P2_SB_D1	=	0x00a1
+                           0000A2   396 _P2_SB_D2	=	0x00a2
+                           0000A3   397 _P2_SB_D3	=	0x00a3
+                           0000A4   398 _P2_SB_D4	=	0x00a4
+                           0000A5   399 _P2_SB_D5	=	0x00a5
+                           0000A6   400 _P2_SB_D6	=	0x00a6
+                           0000A7   401 _P2_SB_D7	=	0x00a7
+                           0000A8   402 _IEN0_SB_IFP	=	0x00a8
+                           0000A9   403 _IEN0_SB_T0	=	0x00a9
+                           0000AA   404 _IEN0_SB_POFIRQ	=	0x00aa
+                           0000AB   405 _IEN0_SB_T1	=	0x00ab
+                           0000AC   406 _IEN0_SB_UART	=	0x00ac
+                           0000AD   407 _IEN0_SB_T2	=	0x00ad
+                           0000AF   408 _IEN0_SB_GLOBAL	=	0x00af
+                           0000B0   409 _P3_SB_D0	=	0x00b0
+                           0000B1   410 _P3_SB_D1	=	0x00b1
+                           0000B2   411 _P3_SB_D2	=	0x00b2
+                           0000B3   412 _P3_SB_D3	=	0x00b3
+                           0000B4   413 _P3_SB_D4	=	0x00b4
+                           0000B5   414 _P3_SB_D5	=	0x00b5
+                           0000B6   415 _P3_SB_D6	=	0x00b6
+                           0000B7   416 _P3_SB_D7	=	0x00b7
+                           0000B8   417 _IEN1_SB_RFRDY	=	0x00b8
+                           0000B9   418 _IEN1_SB_RFIRQ	=	0x00b9
+                           0000BA   419 _IEN1_SB_SPI_2WIRE	=	0x00ba
+                           0000BB   420 _IEN1_SB_WUOPIRQ	=	0x00bb
+                           0000BC   421 _IEN1_SB_MISCIRQ	=	0x00bc
+                           0000BD   422 _IEN1_SB_TICK	=	0x00bd
+                           0000BF   423 _IEN1_SB_T2EXTRLD	=	0x00bf
+                           0000C0   424 _IRCON_SB_RFRDY	=	0x00c0
+                           0000C1   425 _IRCON_SB_RFIRQ	=	0x00c1
+                           0000C2   426 _IRCON_SB_SPI_2WIRE	=	0x00c2
+                           0000C3   427 _IRCON_SB_WUOPIRQ	=	0x00c3
+                           0000C4   428 _IRCON_SB_MISCIRQ	=	0x00c4
+                           0000C5   429 _IRCON_SB_TICK	=	0x00c5
+                           0000C6   430 _IRCON_SB_TF2	=	0x00c6
+                           0000C7   431 _IRCON_SB_EXF2	=	0x00c7
+                           0000C8   432 _T2CON_SB_T2I0	=	0x00c8
+                           0000C9   433 _T2CON_SB_T2I1	=	0x00c9
+                           0000CA   434 _T2CON_SB_T2CM	=	0x00ca
+                           0000CB   435 _T2CON_SB_T2R0	=	0x00cb
+                           0000CC   436 _T2CON_SB_T2R1	=	0x00cc
+                           0000CD   437 _T2CON_SB_I2FR	=	0x00cd
+                           0000CE   438 _T2CON_SB_I3FR	=	0x00ce
+                           0000CF   439 _T2CON_SB_T2PS	=	0x00cf
+                           0000D7   440 _PSW_SB_CY	=	0x00d7
+                           0000D6   441 _PSW_SB_AC	=	0x00d6
+                           0000D5   442 _PSW_SB_F0	=	0x00d5
+                           0000D4   443 _PSW_SB_RS1	=	0x00d4
+                           0000D3   444 _PSW_SB_RS0	=	0x00d3
+                           0000D2   445 _PSW_SB_OV	=	0x00d2
+                           0000D1   446 _PSW_SB_F1	=	0x00d1
+                           0000D0   447 _PSW_SB_P	=	0x00d0
+                           0000DF   448 _ADCON_SB_BD	=	0x00df
+                           0000E8   449 _RFCON_SB_RFCE	=	0x00e8
+                           0000E9   450 _RFCON_SB_RFCSN	=	0x00e9
+                           0000EA   451 _RFCON_SB_RFCKEN	=	0x00ea
+                           0000FA   452 _FSR_SB_RDISMB	=	0x00fa
+                           0000FB   453 _FSR_SB_INFEN	=	0x00fb
+                           0000FC   454 _FSR_SB_RDYN	=	0x00fc
+                           0000FD   455 _FSR_SB_WEN	=	0x00fd
+                           0000FE   456 _FSR_SB_STP	=	0x00fe
+                           0000FF   457 _FSR_SB_ENDBG	=	0x00ff
+                                    458 ;--------------------------------------------------------
+                                    459 ; overlayable register banks
+                                    460 ;--------------------------------------------------------
+                                    461 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        462 	.ds 8
+                                    463 ;--------------------------------------------------------
+                                    464 ; internal ram data
+                                    465 ;--------------------------------------------------------
+                                    466 	.area DSEG    (DATA)
+                                    467 ;--------------------------------------------------------
+                                    468 ; overlayable items in internal ram 
+                                    469 ;--------------------------------------------------------
+                                    470 ;--------------------------------------------------------
+                                    471 ; indirectly addressable internal ram data
+                                    472 ;--------------------------------------------------------
+                                    473 	.area ISEG    (DATA)
+                                    474 ;--------------------------------------------------------
+                                    475 ; absolute internal ram data
+                                    476 ;--------------------------------------------------------
+                                    477 	.area IABS    (ABS,DATA)
+                                    478 	.area IABS    (ABS,DATA)
+                                    479 ;--------------------------------------------------------
+                                    480 ; bit data
+                                    481 ;--------------------------------------------------------
+                                    482 	.area BSEG    (BIT)
+                                    483 ;--------------------------------------------------------
+                                    484 ; paged external ram data
+                                    485 ;--------------------------------------------------------
+                                    486 	.area PSEG    (PAG,XDATA)
+                                    487 ;--------------------------------------------------------
+                                    488 ; external ram data
+                                    489 ;--------------------------------------------------------
+                                    490 	.area XSEG    (XDATA)
+      000000                        491 _gpio_pin_configure_PARM_2:
+      000000                        492 	.ds 1
+      000001                        493 _gpio_pin_configure_gpio_pin_id_1_9:
+      000001                        494 	.ds 1
+                                    495 ;--------------------------------------------------------
+                                    496 ; absolute external ram data
+                                    497 ;--------------------------------------------------------
+                                    498 	.area XABS    (ABS,XDATA)
+                                    499 ;--------------------------------------------------------
+                                    500 ; external initialized ram data
+                                    501 ;--------------------------------------------------------
+                                    502 	.area XISEG   (XDATA)
+                                    503 	.area HOME    (CODE)
+                                    504 	.area GSINIT0 (CODE)
+                                    505 	.area GSINIT1 (CODE)
+                                    506 	.area GSINIT2 (CODE)
+                                    507 	.area GSINIT3 (CODE)
+                                    508 	.area GSINIT4 (CODE)
+                                    509 	.area GSINIT5 (CODE)
+                                    510 	.area GSINIT  (CODE)
+                                    511 	.area GSFINAL (CODE)
+                                    512 	.area CSEG    (CODE)
+                                    513 ;--------------------------------------------------------
+                                    514 ; global & static initialisations
+                                    515 ;--------------------------------------------------------
+                                    516 	.area HOME    (CODE)
+                                    517 	.area GSINIT  (CODE)
+                                    518 	.area GSFINAL (CODE)
+                                    519 	.area GSINIT  (CODE)
+                                    520 ;--------------------------------------------------------
+                                    521 ; Home
+                                    522 ;--------------------------------------------------------
+                                    523 	.area HOME    (CODE)
+                                    524 	.area HOME    (CODE)
+                                    525 ;--------------------------------------------------------
+                                    526 ; code
+                                    527 ;--------------------------------------------------------
+                                    528 	.area CSEG    (CODE)
+                                    529 ;------------------------------------------------------------
+                                    530 ;Allocation info for local variables in function 'gpio_pin_configure'
+                                    531 ;------------------------------------------------------------
+                                    532 ;gpio_pin_config_options   Allocated with name '_gpio_pin_configure_PARM_2'
+                                    533 ;gpio_pin_id               Allocated with name '_gpio_pin_configure_gpio_pin_id_1_9'
+                                    534 ;------------------------------------------------------------
+                                    535 ;	src/gpio_pin_configure.c:47: void gpio_pin_configure(gpio_pin_id_t gpio_pin_id, uint8_t gpio_pin_config_options)
+                                    536 ;	-----------------------------------------
+                                    537 ;	 function gpio_pin_configure
+                                    538 ;	-----------------------------------------
+      000000                        539 _gpio_pin_configure:
+                           000007   540 	ar7 = 0x07
+                           000006   541 	ar6 = 0x06
+                           000005   542 	ar5 = 0x05
+                           000004   543 	ar4 = 0x04
+                           000003   544 	ar3 = 0x03
+                           000002   545 	ar2 = 0x02
+                           000001   546 	ar1 = 0x01
+                           000000   547 	ar0 = 0x00
+      000000 E5 82            [12]  548 	mov	a,dpl
+      000002 90r00r01         [24]  549 	mov	dptr,#_gpio_pin_configure_gpio_pin_id_1_9
+      000005 F0               [24]  550 	movx	@dptr,a
+                                    551 ;	src/gpio_pin_configure.c:50: if(gpio_pin_id <= GPIO_PIN_ID_P0_7)
+      000006 E0               [24]  552 	movx	a,@dptr
+      000007 FF               [12]  553 	mov  r7,a
+      000008 24 F8            [12]  554 	add	a,#0xff - 0x07
+      00000A 50 03            [24]  555 	jnc	00174$
+      00000C 02r00r85         [24]  556 	ljmp	00134$
+      00000F                        557 00174$:
+                                    558 ;	src/gpio_pin_configure.c:53: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_DIR_OUTPUT)
+      00000F 90r00r00         [24]  559 	mov	dptr,#_gpio_pin_configure_PARM_2
+      000012 E0               [24]  560 	movx	a,@dptr
+      000013 FE               [12]  561 	mov	r6,a
+      000014 FD               [12]  562 	mov	r5,a
+      000015 ED               [12]  563 	mov	a,r5
+      000016 30 E0 4C         [24]  564 	jnb	acc.0,00105$
+                                    565 ;	src/gpio_pin_configure.c:56: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_OUTPUT_VAL_SET)
+      000019 EE               [12]  566 	mov	a,r6
+      00001A 30 E1 15         [24]  567 	jnb	acc.1,00102$
+                                    568 ;	src/gpio_pin_configure.c:58: gpio_pins_val_set(P0, (1 << (gpio_pin_id % 8)));
+      00001D 74 07            [12]  569 	mov	a,#0x07
+      00001F 5F               [12]  570 	anl	a,r7
+      000020 F5 F0            [12]  571 	mov	b,a
+      000022 05 F0            [12]  572 	inc	b
+      000024 74 01            [12]  573 	mov	a,#0x01
+      000026 80 02            [24]  574 	sjmp	00179$
+      000028                        575 00177$:
+      000028 25 E0            [12]  576 	add	a,acc
+      00002A                        577 00179$:
+      00002A D5 F0 FB         [24]  578 	djnz	b,00177$
+      00002D FD               [12]  579 	mov	r5,a
+      00002E 42 80            [12]  580 	orl	_P0,a
+      000030 80 14            [24]  581 	sjmp	00103$
+      000032                        582 00102$:
+                                    583 ;	src/gpio_pin_configure.c:62: gpio_pins_val_clear(P0, (1 << (gpio_pin_id % 8)));
+      000032 74 07            [12]  584 	mov	a,#0x07
+      000034 5F               [12]  585 	anl	a,r7
+      000035 F5 F0            [12]  586 	mov	b,a
+      000037 05 F0            [12]  587 	inc	b
+      000039 74 01            [12]  588 	mov	a,#0x01
+      00003B 80 02            [24]  589 	sjmp	00182$
+      00003D                        590 00180$:
+      00003D 25 E0            [12]  591 	add	a,acc
+      00003F                        592 00182$:
+      00003F D5 F0 FB         [24]  593 	djnz	b,00180$
+      000042 F4               [12]  594 	cpl	a
+      000043 FD               [12]  595 	mov	r5,a
+      000044 52 80            [12]  596 	anl	_P0,a
+      000046                        597 00103$:
+                                    598 ;	src/gpio_pin_configure.c:66: P0CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      000046 74 07            [12]  599 	mov	a,#0x07
+      000048 5F               [12]  600 	anl	a,r7
+      000049 FD               [12]  601 	mov	r5,a
+      00004A 74 07            [12]  602 	mov	a,#0x07
+      00004C 5D               [12]  603 	anl	a,r5
+      00004D FC               [12]  604 	mov	r4,a
+      00004E 74 E0            [12]  605 	mov	a,#0xE0
+      000050 5E               [12]  606 	anl	a,r6
+      000051 4C               [12]  607 	orl	a,r4
+      000052 F5 9E            [12]  608 	mov	_P0CON,a
+                                    609 ;	src/gpio_pin_configure.c:69: gpio_pins_dir_output(P0DIR, (1 << (gpio_pin_id % 8)));
+      000054 8D F0            [24]  610 	mov	b,r5
+      000056 05 F0            [12]  611 	inc	b
+      000058 74 01            [12]  612 	mov	a,#0x01
+      00005A 80 02            [24]  613 	sjmp	00185$
+      00005C                        614 00183$:
+      00005C 25 E0            [12]  615 	add	a,acc
+      00005E                        616 00185$:
+      00005E D5 F0 FB         [24]  617 	djnz	b,00183$
+      000061 F4               [12]  618 	cpl	a
+      000062 52 93            [12]  619 	anl	_P0DIR,a
+      000064 22               [24]  620 	ret
+      000065                        621 00105$:
+                                    622 ;	src/gpio_pin_configure.c:74: P0CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | PXCON_IN_OUT | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      000065 74 07            [12]  623 	mov	a,#0x07
+      000067 5F               [12]  624 	anl	a,r7
+      000068 FD               [12]  625 	mov	r5,a
+      000069 74 07            [12]  626 	mov	a,#0x07
+      00006B 5D               [12]  627 	anl	a,r5
+      00006C 44 10            [12]  628 	orl	a,#0x10
+      00006E FC               [12]  629 	mov	r4,a
+      00006F 74 E0            [12]  630 	mov	a,#0xE0
+      000071 5E               [12]  631 	anl	a,r6
+      000072 4C               [12]  632 	orl	a,r4
+      000073 F5 9E            [12]  633 	mov	_P0CON,a
+                                    634 ;	src/gpio_pin_configure.c:77: gpio_pins_dir_input(P0DIR, (1 << (gpio_pin_id % 8)));
+      000075 8D F0            [24]  635 	mov	b,r5
+      000077 05 F0            [12]  636 	inc	b
+      000079 74 01            [12]  637 	mov	a,#0x01
+      00007B 80 02            [24]  638 	sjmp	00188$
+      00007D                        639 00186$:
+      00007D 25 E0            [12]  640 	add	a,acc
+      00007F                        641 00188$:
+      00007F D5 F0 FB         [24]  642 	djnz	b,00186$
+      000082 42 93            [12]  643 	orl	_P0DIR,a
+      000084 22               [24]  644 	ret
+      000085                        645 00134$:
+                                    646 ;	src/gpio_pin_configure.c:80: else if(gpio_pin_id <= GPIO_PIN_ID_P1_7)
+      000085 EF               [12]  647 	mov	a,r7
+      000086 24 F0            [12]  648 	add	a,#0xff - 0x0F
+      000088 50 03            [24]  649 	jnc	00189$
+      00008A 02r01r03         [24]  650 	ljmp	00131$
+      00008D                        651 00189$:
+                                    652 ;	src/gpio_pin_configure.c:83: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_DIR_OUTPUT)
+      00008D 90r00r00         [24]  653 	mov	dptr,#_gpio_pin_configure_PARM_2
+      000090 E0               [24]  654 	movx	a,@dptr
+      000091 FE               [12]  655 	mov	r6,a
+      000092 FD               [12]  656 	mov	r5,a
+      000093 ED               [12]  657 	mov	a,r5
+      000094 30 E0 4C         [24]  658 	jnb	acc.0,00111$
+                                    659 ;	src/gpio_pin_configure.c:86: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_OUTPUT_VAL_SET)
+      000097 EE               [12]  660 	mov	a,r6
+      000098 30 E1 15         [24]  661 	jnb	acc.1,00108$
+                                    662 ;	src/gpio_pin_configure.c:88: gpio_pins_val_set(P1, (1 << (gpio_pin_id % 8)));
+      00009B 74 07            [12]  663 	mov	a,#0x07
+      00009D 5F               [12]  664 	anl	a,r7
+      00009E F5 F0            [12]  665 	mov	b,a
+      0000A0 05 F0            [12]  666 	inc	b
+      0000A2 74 01            [12]  667 	mov	a,#0x01
+      0000A4 80 02            [24]  668 	sjmp	00194$
+      0000A6                        669 00192$:
+      0000A6 25 E0            [12]  670 	add	a,acc
+      0000A8                        671 00194$:
+      0000A8 D5 F0 FB         [24]  672 	djnz	b,00192$
+      0000AB FD               [12]  673 	mov	r5,a
+      0000AC 42 90            [12]  674 	orl	_P1,a
+      0000AE 80 14            [24]  675 	sjmp	00109$
+      0000B0                        676 00108$:
+                                    677 ;	src/gpio_pin_configure.c:92: gpio_pins_val_clear(P1, (1 << (gpio_pin_id % 8)));
+      0000B0 74 07            [12]  678 	mov	a,#0x07
+      0000B2 5F               [12]  679 	anl	a,r7
+      0000B3 F5 F0            [12]  680 	mov	b,a
+      0000B5 05 F0            [12]  681 	inc	b
+      0000B7 74 01            [12]  682 	mov	a,#0x01
+      0000B9 80 02            [24]  683 	sjmp	00197$
+      0000BB                        684 00195$:
+      0000BB 25 E0            [12]  685 	add	a,acc
+      0000BD                        686 00197$:
+      0000BD D5 F0 FB         [24]  687 	djnz	b,00195$
+      0000C0 F4               [12]  688 	cpl	a
+      0000C1 FD               [12]  689 	mov	r5,a
+      0000C2 52 90            [12]  690 	anl	_P1,a
+      0000C4                        691 00109$:
+                                    692 ;	src/gpio_pin_configure.c:96: P1CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      0000C4 74 07            [12]  693 	mov	a,#0x07
+      0000C6 5F               [12]  694 	anl	a,r7
+      0000C7 FD               [12]  695 	mov	r5,a
+      0000C8 74 07            [12]  696 	mov	a,#0x07
+      0000CA 5D               [12]  697 	anl	a,r5
+      0000CB FC               [12]  698 	mov	r4,a
+      0000CC 74 E0            [12]  699 	mov	a,#0xE0
+      0000CE 5E               [12]  700 	anl	a,r6
+      0000CF 4C               [12]  701 	orl	a,r4
+      0000D0 F5 9F            [12]  702 	mov	_P1CON,a
+                                    703 ;	src/gpio_pin_configure.c:99: gpio_pins_dir_output(P1DIR, (1 << (gpio_pin_id % 8)));
+      0000D2 8D F0            [24]  704 	mov	b,r5
+      0000D4 05 F0            [12]  705 	inc	b
+      0000D6 74 01            [12]  706 	mov	a,#0x01
+      0000D8 80 02            [24]  707 	sjmp	00200$
+      0000DA                        708 00198$:
+      0000DA 25 E0            [12]  709 	add	a,acc
+      0000DC                        710 00200$:
+      0000DC D5 F0 FB         [24]  711 	djnz	b,00198$
+      0000DF F4               [12]  712 	cpl	a
+      0000E0 52 94            [12]  713 	anl	_P1DIR,a
+      0000E2 22               [24]  714 	ret
+      0000E3                        715 00111$:
+                                    716 ;	src/gpio_pin_configure.c:104: P1CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | PXCON_IN_OUT | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      0000E3 74 07            [12]  717 	mov	a,#0x07
+      0000E5 5F               [12]  718 	anl	a,r7
+      0000E6 FD               [12]  719 	mov	r5,a
+      0000E7 74 07            [12]  720 	mov	a,#0x07
+      0000E9 5D               [12]  721 	anl	a,r5
+      0000EA 44 10            [12]  722 	orl	a,#0x10
+      0000EC FC               [12]  723 	mov	r4,a
+      0000ED 74 E0            [12]  724 	mov	a,#0xE0
+      0000EF 5E               [12]  725 	anl	a,r6
+      0000F0 4C               [12]  726 	orl	a,r4
+      0000F1 F5 9F            [12]  727 	mov	_P1CON,a
+                                    728 ;	src/gpio_pin_configure.c:107: gpio_pins_dir_input(P1DIR, (1 << (gpio_pin_id % 8)));
+      0000F3 8D F0            [24]  729 	mov	b,r5
+      0000F5 05 F0            [12]  730 	inc	b
+      0000F7 74 01            [12]  731 	mov	a,#0x01
+      0000F9 80 02            [24]  732 	sjmp	00203$
+      0000FB                        733 00201$:
+      0000FB 25 E0            [12]  734 	add	a,acc
+      0000FD                        735 00203$:
+      0000FD D5 F0 FB         [24]  736 	djnz	b,00201$
+      000100 42 94            [12]  737 	orl	_P1DIR,a
+      000102 22               [24]  738 	ret
+      000103                        739 00131$:
+                                    740 ;	src/gpio_pin_configure.c:110: else if(gpio_pin_id <= GPIO_PIN_ID_P2_7)
+      000103 EF               [12]  741 	mov	a,r7
+      000104 24 E8            [12]  742 	add	a,#0xff - 0x17
+      000106 50 03            [24]  743 	jnc	00204$
+      000108 02r01r81         [24]  744 	ljmp	00128$
+      00010B                        745 00204$:
+                                    746 ;	src/gpio_pin_configure.c:113: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_DIR_OUTPUT)
+      00010B 90r00r00         [24]  747 	mov	dptr,#_gpio_pin_configure_PARM_2
+      00010E E0               [24]  748 	movx	a,@dptr
+      00010F FE               [12]  749 	mov	r6,a
+      000110 FD               [12]  750 	mov	r5,a
+      000111 ED               [12]  751 	mov	a,r5
+      000112 30 E0 4C         [24]  752 	jnb	acc.0,00117$
+                                    753 ;	src/gpio_pin_configure.c:116: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_OUTPUT_VAL_SET)
+      000115 EE               [12]  754 	mov	a,r6
+      000116 30 E1 15         [24]  755 	jnb	acc.1,00114$
+                                    756 ;	src/gpio_pin_configure.c:118: gpio_pins_val_set(P2, (1 << (gpio_pin_id % 8)));
+      000119 74 07            [12]  757 	mov	a,#0x07
+      00011B 5F               [12]  758 	anl	a,r7
+      00011C F5 F0            [12]  759 	mov	b,a
+      00011E 05 F0            [12]  760 	inc	b
+      000120 74 01            [12]  761 	mov	a,#0x01
+      000122 80 02            [24]  762 	sjmp	00209$
+      000124                        763 00207$:
+      000124 25 E0            [12]  764 	add	a,acc
+      000126                        765 00209$:
+      000126 D5 F0 FB         [24]  766 	djnz	b,00207$
+      000129 FD               [12]  767 	mov	r5,a
+      00012A 42 A0            [12]  768 	orl	_P2,a
+      00012C 80 14            [24]  769 	sjmp	00115$
+      00012E                        770 00114$:
+                                    771 ;	src/gpio_pin_configure.c:122: gpio_pins_val_clear(P2, (1 << (gpio_pin_id % 8)));
+      00012E 74 07            [12]  772 	mov	a,#0x07
+      000130 5F               [12]  773 	anl	a,r7
+      000131 F5 F0            [12]  774 	mov	b,a
+      000133 05 F0            [12]  775 	inc	b
+      000135 74 01            [12]  776 	mov	a,#0x01
+      000137 80 02            [24]  777 	sjmp	00212$
+      000139                        778 00210$:
+      000139 25 E0            [12]  779 	add	a,acc
+      00013B                        780 00212$:
+      00013B D5 F0 FB         [24]  781 	djnz	b,00210$
+      00013E F4               [12]  782 	cpl	a
+      00013F FD               [12]  783 	mov	r5,a
+      000140 52 A0            [12]  784 	anl	_P2,a
+      000142                        785 00115$:
+                                    786 ;	src/gpio_pin_configure.c:126: P2CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      000142 74 07            [12]  787 	mov	a,#0x07
+      000144 5F               [12]  788 	anl	a,r7
+      000145 FD               [12]  789 	mov	r5,a
+      000146 74 07            [12]  790 	mov	a,#0x07
+      000148 5D               [12]  791 	anl	a,r5
+      000149 FC               [12]  792 	mov	r4,a
+      00014A 74 E0            [12]  793 	mov	a,#0xE0
+      00014C 5E               [12]  794 	anl	a,r6
+      00014D 4C               [12]  795 	orl	a,r4
+      00014E F5 97            [12]  796 	mov	_P2CON,a
+                                    797 ;	src/gpio_pin_configure.c:129: gpio_pins_dir_output(P2DIR, (1 << (gpio_pin_id % 8)));
+      000150 8D F0            [24]  798 	mov	b,r5
+      000152 05 F0            [12]  799 	inc	b
+      000154 74 01            [12]  800 	mov	a,#0x01
+      000156 80 02            [24]  801 	sjmp	00215$
+      000158                        802 00213$:
+      000158 25 E0            [12]  803 	add	a,acc
+      00015A                        804 00215$:
+      00015A D5 F0 FB         [24]  805 	djnz	b,00213$
+      00015D F4               [12]  806 	cpl	a
+      00015E 52 95            [12]  807 	anl	_P2DIR,a
+      000160 22               [24]  808 	ret
+      000161                        809 00117$:
+                                    810 ;	src/gpio_pin_configure.c:134: P2CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | PXCON_IN_OUT | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      000161 74 07            [12]  811 	mov	a,#0x07
+      000163 5F               [12]  812 	anl	a,r7
+      000164 FD               [12]  813 	mov	r5,a
+      000165 74 07            [12]  814 	mov	a,#0x07
+      000167 5D               [12]  815 	anl	a,r5
+      000168 44 10            [12]  816 	orl	a,#0x10
+      00016A FC               [12]  817 	mov	r4,a
+      00016B 74 E0            [12]  818 	mov	a,#0xE0
+      00016D 5E               [12]  819 	anl	a,r6
+      00016E 4C               [12]  820 	orl	a,r4
+      00016F F5 97            [12]  821 	mov	_P2CON,a
+                                    822 ;	src/gpio_pin_configure.c:137: gpio_pins_dir_input(P2DIR, (1 << (gpio_pin_id % 8)));
+      000171 8D F0            [24]  823 	mov	b,r5
+      000173 05 F0            [12]  824 	inc	b
+      000175 74 01            [12]  825 	mov	a,#0x01
+      000177 80 02            [24]  826 	sjmp	00218$
+      000179                        827 00216$:
+      000179 25 E0            [12]  828 	add	a,acc
+      00017B                        829 00218$:
+      00017B D5 F0 FB         [24]  830 	djnz	b,00216$
+      00017E 42 95            [12]  831 	orl	_P2DIR,a
+      000180 22               [24]  832 	ret
+      000181                        833 00128$:
+                                    834 ;	src/gpio_pin_configure.c:140: else if(gpio_pin_id <= GPIO_PIN_ID_P3_6)
+      000181 EF               [12]  835 	mov	a,r7
+      000182 24 E1            [12]  836 	add	a,#0xff - 0x1E
+      000184 40 75            [24]  837 	jc	00136$
+                                    838 ;	src/gpio_pin_configure.c:143: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_DIR_OUTPUT)
+      000186 90r00r00         [24]  839 	mov	dptr,#_gpio_pin_configure_PARM_2
+      000189 E0               [24]  840 	movx	a,@dptr
+      00018A FE               [12]  841 	mov	r6,a
+      00018B FD               [12]  842 	mov	r5,a
+      00018C ED               [12]  843 	mov	a,r5
+      00018D 30 E0 4C         [24]  844 	jnb	acc.0,00123$
+                                    845 ;	src/gpio_pin_configure.c:146: if(gpio_pin_config_options & GPIO_PIN_CONFIG_OPTION_OUTPUT_VAL_SET)
+      000190 EE               [12]  846 	mov	a,r6
+      000191 30 E1 15         [24]  847 	jnb	acc.1,00120$
+                                    848 ;	src/gpio_pin_configure.c:148: gpio_pins_val_set(P3, (1 << (gpio_pin_id % 8)));
+      000194 74 07            [12]  849 	mov	a,#0x07
+      000196 5F               [12]  850 	anl	a,r7
+      000197 F5 F0            [12]  851 	mov	b,a
+      000199 05 F0            [12]  852 	inc	b
+      00019B 74 01            [12]  853 	mov	a,#0x01
+      00019D 80 02            [24]  854 	sjmp	00224$
+      00019F                        855 00222$:
+      00019F 25 E0            [12]  856 	add	a,acc
+      0001A1                        857 00224$:
+      0001A1 D5 F0 FB         [24]  858 	djnz	b,00222$
+      0001A4 FD               [12]  859 	mov	r5,a
+      0001A5 42 B0            [12]  860 	orl	_P3,a
+      0001A7 80 14            [24]  861 	sjmp	00121$
+      0001A9                        862 00120$:
+                                    863 ;	src/gpio_pin_configure.c:152: gpio_pins_val_clear(P3, (1 << (gpio_pin_id % 8)));
+      0001A9 74 07            [12]  864 	mov	a,#0x07
+      0001AB 5F               [12]  865 	anl	a,r7
+      0001AC F5 F0            [12]  866 	mov	b,a
+      0001AE 05 F0            [12]  867 	inc	b
+      0001B0 74 01            [12]  868 	mov	a,#0x01
+      0001B2 80 02            [24]  869 	sjmp	00227$
+      0001B4                        870 00225$:
+      0001B4 25 E0            [12]  871 	add	a,acc
+      0001B6                        872 00227$:
+      0001B6 D5 F0 FB         [24]  873 	djnz	b,00225$
+      0001B9 F4               [12]  874 	cpl	a
+      0001BA FD               [12]  875 	mov	r5,a
+      0001BB 52 B0            [12]  876 	anl	_P3,a
+      0001BD                        877 00121$:
+                                    878 ;	src/gpio_pin_configure.c:156: P3CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      0001BD 74 07            [12]  879 	mov	a,#0x07
+      0001BF 5F               [12]  880 	anl	a,r7
+      0001C0 FD               [12]  881 	mov	r5,a
+      0001C1 74 07            [12]  882 	mov	a,#0x07
+      0001C3 5D               [12]  883 	anl	a,r5
+      0001C4 FC               [12]  884 	mov	r4,a
+      0001C5 74 E0            [12]  885 	mov	a,#0xE0
+      0001C7 5E               [12]  886 	anl	a,r6
+      0001C8 4C               [12]  887 	orl	a,r4
+      0001C9 F5 8F            [12]  888 	mov	_P3CON,a
+                                    889 ;	src/gpio_pin_configure.c:159: gpio_pins_dir_output(P3DIR, (1 << (gpio_pin_id % 8)));
+      0001CB 8D F0            [24]  890 	mov	b,r5
+      0001CD 05 F0            [12]  891 	inc	b
+      0001CF 74 01            [12]  892 	mov	a,#0x01
+      0001D1 80 02            [24]  893 	sjmp	00230$
+      0001D3                        894 00228$:
+      0001D3 25 E0            [12]  895 	add	a,acc
+      0001D5                        896 00230$:
+      0001D5 D5 F0 FB         [24]  897 	djnz	b,00228$
+      0001D8 F4               [12]  898 	cpl	a
+      0001D9 52 96            [12]  899 	anl	_P3DIR,a
+      0001DB 22               [24]  900 	ret
+      0001DC                        901 00123$:
+                                    902 ;	src/gpio_pin_configure.c:164: P3CON = ((gpio_pin_id % 8) & PXCON_BIT_ADDR_MASK) | PXCON_IN_OUT | (gpio_pin_config_options & PXCON_PINMODE_MASK);
+      0001DC 53 07 07         [24]  903 	anl	ar7,#0x07
+      0001DF 74 07            [12]  904 	mov	a,#0x07
+      0001E1 5F               [12]  905 	anl	a,r7
+      0001E2 44 10            [12]  906 	orl	a,#0x10
+      0001E4 FD               [12]  907 	mov	r5,a
+      0001E5 74 E0            [12]  908 	mov	a,#0xE0
+      0001E7 5E               [12]  909 	anl	a,r6
+      0001E8 4D               [12]  910 	orl	a,r5
+      0001E9 F5 8F            [12]  911 	mov	_P3CON,a
+                                    912 ;	src/gpio_pin_configure.c:167: gpio_pins_dir_input(P3DIR, (1 << (gpio_pin_id % 8)));
+      0001EB 8F F0            [24]  913 	mov	b,r7
+      0001ED 05 F0            [12]  914 	inc	b
+      0001EF 74 01            [12]  915 	mov	a,#0x01
+      0001F1 80 02            [24]  916 	sjmp	00233$
+      0001F3                        917 00231$:
+      0001F3 25 E0            [12]  918 	add	a,acc
+      0001F5                        919 00233$:
+      0001F5 D5 F0 FB         [24]  920 	djnz	b,00231$
+      0001F8 FF               [12]  921 	mov	r7,a
+      0001F9 42 96            [12]  922 	orl	_P3DIR,a
+      0001FB                        923 00136$:
+      0001FB 22               [24]  924 	ret
+                                    925 	.area CSEG    (CODE)
+                                    926 	.area CONST   (CODE)
+                                    927 	.area XINIT   (CODE)
+                                    928 	.area CABS    (ABS,CODE)

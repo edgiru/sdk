@@ -3,22 +3,13 @@
 *.ko
 
 # Libraries
-*.lib
 *.a
 
 # SDCC stuff
 *.lnk
-*.lst
 *.map
 *.mem
-*.rel
 *.rst
-*.sym
-*.asm
-
-*/dep/
-*/lib/
-*/obj/
 
 # Shared objects (inc. Windows DLLs)
 *.dll
