@@ -221,6 +221,7 @@
 //RF_SETUP register bitwise definitions
 #define RF_RF_SETUP_CONT_WAVE			0x80
 #define RF_RF_SETUP_RESERVED			0x40
+#define RF_RF_SETUP_RF_DR				0x28
 #define RF_RF_SETUP_RF_DR_LOW			0x20
 #define RF_RF_SETUP_PLL_LOCK			0x10
 #define RF_RF_SETUP_RF_DR_HIGH			0x08
@@ -384,6 +385,7 @@ void rf_power_down();
 void rf_power_down_param(uint8_t config);
 
 void rf_set_output_power(uint8_t);
+void rf_set_data_rate(uint8_t);
 
 uint8_t rf_write_register(uint8_t regnumber, uint8_t * dataptr, uint16_t len);
 uint8_t rf_read_register(uint8_t regnumber, uint8_t * dataptr, uint16_t len);
