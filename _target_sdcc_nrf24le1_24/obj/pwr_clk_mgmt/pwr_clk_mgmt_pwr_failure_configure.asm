@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
-; This file was generated Fri Jun 13 08:32:09 2014
+; This file was generated Sun Jul 20 08:44:01 2014
 ;--------------------------------------------------------
 	.module pwr_clk_mgmt_pwr_failure_configure
 	.optsdcc -mmcs51 --model-large

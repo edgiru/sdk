@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
-; This file was generated Fri Jun 13 08:32:41 2014
+; This file was generated Sun Jul 20 08:44:40 2014
 ;--------------------------------------------------------
 	.module timer2_configure_manual_reload_calc
 	.optsdcc -mmcs51 --model-large

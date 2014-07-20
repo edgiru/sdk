@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
-; This file was generated Fri Jun 13 08:34:47 2014
+; This file was generated Sun Jul 20 08:46:40 2014
 ;--------------------------------------------------------
 	.module watchdog_get_wdsv_count
 	.optsdcc -mmcs51 --model-large

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
-; This file was generated Fri Jun 13 08:32:24 2014
+; This file was generated Sun Jul 20 08:44:18 2014
 ;--------------------------------------------------------
 	.module rf_configure_debug_lite
 	.optsdcc -mmcs51 --model-large
